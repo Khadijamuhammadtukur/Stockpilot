@@ -81,12 +81,12 @@ export default function ReceiptModal({ order, onClose }) {
             <strong style={{ color: '#0f172a' }}>{order.customer_name}</strong>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <span style={{ color: '#64748b', display: 'block' }}>Transaction Ref:</span>
-            <strong style={{ color: '#64748b', fontFamily: 'monospace' }}>{order.transaction_reference || 'N/A'}</strong>
+            <span style={{ color: '#64748b', display: 'block' }}>Tracking Number:</span>
+            <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>{order.delivery?.tracking_number || order.tracking_number || 'N/A'}</strong>
           </div>
         </div>
 
-                <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '20px' }}>
+        <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '20px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
             <thead style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
               <tr>
@@ -111,18 +111,24 @@ export default function ReceiptModal({ order, onClose }) {
           </table>
         </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '14px', background: '#f8fafc', borderRadius: '8px', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '14px', background: '#f8fafc', borderRadius: '8px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#64748b' }}>
-            <span>Subtotal</span>
+            <span>Item Subtotal</span>
             <span>₦{Number(order.subtotal || order.total_amount).toLocaleString()}</span>
           </div>
+          {Number(order.total_amount) > Number(order.subtotal) && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#2563eb', fontWeight: 600 }}>
+              <span>Delivery Fee</span>
+              <span>₦{Number(Number(order.total_amount) - Number(order.subtotal)).toLocaleString()}</span>
+            </div>
+          )}
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', borderTop: '1px solid #cbd5e1', paddingTop: '8px' }}>
             <span>Total Paid</span>
             <span style={{ color: '#2563eb' }}>₦{Number(order.total_amount).toLocaleString()}</span>
           </div>
         </div>
 
-                <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px' }}>
           <button className="btn btn-secondary" style={{ flex: 1 }} onClick={handlePrint}>
             <Printer size={16} />
             Print Receipt
