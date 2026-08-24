@@ -100,4 +100,71 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully']);
     }
+
+    public function listStaff()
+    {
+        return response()->json(User::with('role')->get());
+    }
+
+    public function createStaff(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'role_id' => 'required|exists:roles,id',
+            'phone' => 'nullable|string',
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role_id' => $validated['role_id'],
+            'phone' => $validated['phone'] ?? null,
+        ]);
+
+        $adminName = $request->user()?->name ?? 'Admin';
+
+        AuditLog::create([
+            'user_id' => $request->user()?->id,
+            'user_name' => $adminName,
+            'user_role' => 'admin',
+            'action' => 'USER_CREATED',
+            'category' => 'auth',
+            'description' => "Created new staff user {$user->name} ({$user->email}).",
+            'exact_timestamp' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Staff account created successfully!',
+            'user' => $user->load('role'),
+        ], 201);
+    }
+
+    public function switchUser(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $targetUser = User::with('role')->findOrFail($validated['user_id']);
+        $token = method_exists($targetUser, 'createToken') ? $targetUser->createToken('stockpilot_token')->plainTextToken : bin2hex(random_bytes(32));
+
+        AuditLog::create([
+            'user_id' => $request->user()?->id,
+            'user_name' => $request->user()?->name ?? 'Admin',
+            'user_role' => $request->user()?->role?->name ?? 'admin',
+            'action' => 'USER_SWITCHED',
+            'category' => 'auth',
+            'description' => "Switched active user session context to {$targetUser->name} ({$targetUser->email}).",
+            'exact_timestamp' => now(),
+        ]);
+
+        return response()->json([
+            'message' => "Switched session to {$targetUser->name}.",
+            'user' => $targetUser,
+            'token' => $token,
+        ]);
+    }
 }
