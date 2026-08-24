@@ -1,12 +1,14 @@
 import React from 'react';
 import { X, Printer, CheckCircle, Download, FileText } from 'lucide-react';
 
-export default function ReceiptModal({ order, onClose }) {
+export default function ReceiptModal({ order, onClose, onTrackOrder }) {
   if (!order) return null;
 
   const handlePrint = () => {
     window.print();
   };
+
+  const trackingNum = order.delivery?.tracking_number || order.tracking_number;
 
   return (
     <div style={{
@@ -82,7 +84,7 @@ export default function ReceiptModal({ order, onClose }) {
           </div>
           <div style={{ textAlign: 'right' }}>
             <span style={{ color: '#64748b', display: 'block' }}>Tracking Number:</span>
-            <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>{order.delivery?.tracking_number || order.tracking_number || 'N/A'}</strong>
+            <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>{trackingNum || 'N/A'}</strong>
           </div>
         </div>
 
@@ -128,11 +130,22 @@ export default function ReceiptModal({ order, onClose }) {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button className="btn btn-secondary" style={{ flex: 1 }} onClick={handlePrint}>
-            <Printer size={16} />
-            Print Receipt
+            <Printer size={16} /> Print Receipt
           </button>
+          {trackingNum && (
+            <button 
+              className="btn btn-primary" 
+              style={{ flex: 1.2, background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)' }} 
+              onClick={() => {
+                onClose();
+                if (onTrackOrder) onTrackOrder(trackingNum);
+              }}
+            >
+              🚚 Track Order Live
+            </button>
+          )}
           <button className="btn btn-primary" style={{ flex: 1 }} onClick={onClose}>
             Done
           </button>

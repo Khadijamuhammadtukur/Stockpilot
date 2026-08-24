@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '../api/config';
+import { useCart } from '../context/CartContext';
 import { 
   Truck, PackageCheck, Clock, MapPin, User, Search, Filter, 
   Plus, Edit, CheckCircle2, AlertCircle, Calendar, ShieldCheck, ArrowRight 
 } from 'lucide-react';
 
 export default function AdminDeliveries() {
+  const { showToast } = useCart();
   const [deliveries, setDeliveries] = useState([]);
   const [zones, setZones] = useState([]);
   const [couriers, setCouriers] = useState([]);
@@ -71,13 +73,13 @@ export default function AdminDeliveries() {
           estimated_delivery_date: estimatedDate || null,
         }),
       });
-      alert(`Delivery status updated to '${newStatus}'!`);
+      showToast(`Delivery status updated to '${newStatus.replace(/_/g, ' ')}'!`);
       setStatusModal(false);
       setSelectedDelivery(null);
       setStatusNote('');
       fetchData();
     } catch (err) {
-      alert('Error updating status: ' + err.message);
+      showToast('Error updating status: ' + err.message, 'error');
     }
   };
 
@@ -89,12 +91,12 @@ export default function AdminDeliveries() {
         method: 'PATCH',
         body: JSON.stringify({ assigned_to: assignedStaffId }),
       });
-      alert('Delivery staff assigned successfully!');
+      showToast('Delivery staff assigned successfully!');
       setAssignModal(false);
       setSelectedDelivery(null);
       fetchData();
     } catch (err) {
-      alert('Error assigning courier: ' + err.message);
+      showToast('Error assigning courier: ' + err.message, 'error');
     }
   };
 
@@ -111,13 +113,13 @@ export default function AdminDeliveries() {
           estimated_delivery_time: estimatedTime,
         }),
       });
-      alert(`Delivery zone '${zoneName}' created successfully!`);
+      showToast(`Delivery zone '${zoneName}' created successfully!`);
       setZoneModal(false);
       setZoneName('');
       setZoneRegion('');
       fetchData();
     } catch (err) {
-      alert('Error creating zone: ' + err.message);
+      showToast('Error creating zone: ' + err.message, 'error');
     }
   };
 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '../api/config';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import { Truck, PackageCheck, MapPin, Clock, User, CheckCircle2, Navigation, AlertCircle } from 'lucide-react';
 
 export default function DeliveryStaffTerminal() {
   const { user } = useAuth();
+  const { showToast } = useCart();
   const [deliveries, setDeliveries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [note, setNote] = useState('');
@@ -34,11 +36,11 @@ export default function DeliveryStaffTerminal() {
           note: note || `Status updated by courier ${user?.name || 'Driver'}.`,
         }),
       });
-      alert(`Package status updated to '${status.replace(/_/g, ' ')}'!`);
+      showToast(`Package status updated to '${status.replace(/_/g, ' ')}'!`);
       setNote('');
       fetchMyDeliveries();
     } catch (err) {
-      alert('Error updating package status: ' + err.message);
+      showToast('Error updating package status: ' + err.message, 'error');
     }
   };
 

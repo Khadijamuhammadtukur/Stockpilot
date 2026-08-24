@@ -27,24 +27,7 @@ function AppContent() {
   const { toast } = useCart();
 
   const [activeAdminTab, setActiveAdminTab] = useState('dashboard');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showTracking, setShowTracking] = useState(false);
-
-  React.useEffect(() => {
-    const roleName = user?.role?.name;
-    if (roleName === 'sales_staff') {
-      setActiveAdminTab('pos');
-    } else if (roleName === 'delivery_staff') {
-      setActiveAdminTab('deliveries');
-    }
-  }, [user]);
-  
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isDailyCloseOpen, setIsDailyCloseOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [completedOrder, setCompletedOrder] = useState(null);
+  const [trackingNumber, setTrackingNumber] = useState('');
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
@@ -75,7 +58,7 @@ function AppContent() {
         onOpenAuthModal={() => setIsAuthOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
         onOpenDailyCloseModal={() => setIsDailyCloseOpen(true)}
-        onOpenTracking={() => setShowTracking(true)}
+        onOpenTracking={() => { setTrackingNumber(''); setShowTracking(true); }}
         activeAdminTab={activeAdminTab}
         setActiveAdminTab={(tab) => { setShowTracking(false); setActiveAdminTab(tab); }}
         searchTerm={searchTerm}
@@ -90,7 +73,7 @@ function AppContent() {
                 ← Back to Storefront Catalog
               </button>
             </div>
-            <CustomerTracking />
+            <CustomerTracking trackingNumber={trackingNumber} />
           </div>
         ) : viewMode === 'storefront' ? (
           <StorefrontHome 
@@ -141,6 +124,10 @@ function AppContent() {
       <ReceiptModal 
         order={completedOrder} 
         onClose={() => setCompletedOrder(null)} 
+        onTrackOrder={(tn) => {
+          setTrackingNumber(tn);
+          setShowTracking(true);
+        }}
       />
 
     </div>
