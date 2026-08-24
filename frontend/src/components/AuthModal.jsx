@@ -106,18 +106,30 @@ export default function AuthModal({ isOpen, onClose }) {
           <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Quick Demo Login
           </span>
-          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
             <button 
               onClick={() => handleDemoLogin('admin@stockpilot.com')}
-              style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#f8fafc', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', color: '#0f172a' }}
+              style={{ padding: '8px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#f8fafc', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', color: '#0f172a' }}
             >
               👑 Administrator
             </button>
             <button 
               onClick={() => handleDemoLogin('sarah@stockpilot.com')}
-              style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#f8fafc', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', color: '#0f172a' }}
+              style={{ padding: '8px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#f8fafc', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', color: '#0f172a' }}
             >
               🏷️ Sales Staff
+            </button>
+            <button 
+              onClick={() => handleDemoLogin('stock@stockpilot.com')}
+              style={{ padding: '8px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#f8fafc', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', color: '#0f172a' }}
+            >
+              📦 Inventory Staff
+            </button>
+            <button 
+              onClick={() => handleDemoLogin('driver@stockpilot.com')}
+              style={{ padding: '8px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#f8fafc', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', color: '#0f172a' }}
+            >
+              🚚 Delivery Staff
             </button>
           </div>
         </div>
