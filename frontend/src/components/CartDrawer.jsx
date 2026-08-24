@@ -12,6 +12,7 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
   const [shippingAddress, setShippingAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('online_paystack');
   const [processing, setProcessing] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [zones, setZones] = useState([]);
   const [deliveryMethod, setDeliveryMethod] = useState('standard');
   const [selectedZoneId, setSelectedZoneId] = useState('');
