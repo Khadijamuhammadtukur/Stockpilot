@@ -133,6 +133,12 @@ class DeliveryController extends Controller
 
         $delivery = Delivery::findOrFail($id);
         $delivery->assigned_to = $validated['assigned_to'];
+        
+        // Automated status advancement: move from pending/processing to ready_for_dispatch
+        if (in_array($delivery->delivery_status, ['pending', 'processing'])) {
+            $delivery->delivery_status = 'ready_for_dispatch';
+        }
+
         $delivery->save();
 
         $courier = User::find($validated['assigned_to']);
@@ -141,14 +147,14 @@ class DeliveryController extends Controller
         DeliveryStatusHistory::create([
             'delivery_id' => $delivery->id,
             'status' => $delivery->delivery_status,
-            'note' => "Assigned to courier: {$courier->name} ({$courier->email}).",
+            'note' => "Automated System Update: Package assigned to courier driver {$courier->name} and marked Ready for Dispatch.",
             'changed_by_user_id' => $request->user()?->id,
             'changed_by_name' => $userName,
             'exact_timestamp' => now(),
         ]);
 
         return response()->json([
-            'message' => "Delivery assigned to {$courier->name}.",
+            'message' => "Delivery assigned to {$courier->name} and marked Ready for Dispatch.",
             'delivery' => $delivery->fresh(['courier', 'statusHistories']),
         ]);
     }

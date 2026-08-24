@@ -101,20 +101,33 @@ export default function DeliveryStaffTerminal() {
               </div>
 
                             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <button 
-                  className="btn btn-secondary" 
-                  style={{ flex: 1, padding: '8px', fontSize: '0.8rem' }}
-                  onClick={() => handleUpdateStatus(d.id, 'out_for_delivery')}
-                >
-                  Out for Delivery
-                </button>
-                <button 
-                  className="btn btn-primary" 
-                  style={{ flex: 1, padding: '8px', fontSize: '0.8rem' }}
-                  onClick={() => handleUpdateStatus(d.id, 'delivered')}
-                >
-                  <CheckCircle2 size={16} /> Mark Delivered
-                </button>
+                {d.delivery_status !== 'in_transit' && d.delivery_status !== 'delivered' && (
+                  <button 
+                    className="btn btn-secondary" 
+                    style={{ flex: 1, padding: '8px', fontSize: '0.8rem' }}
+                    onClick={() => handleUpdateStatus(d.id, 'in_transit')}
+                  >
+                    <Truck size={14} /> Start Transit Run
+                  </button>
+                )}
+                {d.delivery_status !== 'out_for_delivery' && d.delivery_status !== 'delivered' && (
+                  <button 
+                    className="btn btn-secondary" 
+                    style={{ flex: 1, padding: '8px', fontSize: '0.8rem' }}
+                    onClick={() => handleUpdateStatus(d.id, 'out_for_delivery')}
+                  >
+                    Out for Delivery
+                  </button>
+                )}
+                {d.delivery_status !== 'delivered' && (
+                  <button 
+                    className="btn btn-primary" 
+                    style={{ flex: 1, padding: '8px', fontSize: '0.8rem' }}
+                    onClick={() => handleUpdateStatus(d.id, 'delivered')}
+                  >
+                    <CheckCircle2 size={16} /> Mark Delivered
+                  </button>
+                )}
               </div>
             </div>
           ))}
