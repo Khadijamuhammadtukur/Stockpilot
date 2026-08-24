@@ -143,7 +143,7 @@ export default function ReceiptModal({ order, onClose, onTrackOrder }) {
                 if (onTrackOrder) onTrackOrder(trackingNum);
               }}
             >
-              🚚 Track Order Live
+              🚚 View Package Status
             </button>
           )}
           <button className="btn btn-primary" style={{ flex: 1 }} onClick={onClose}>

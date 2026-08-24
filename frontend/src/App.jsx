@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
 
@@ -27,7 +27,26 @@ function AppContent() {
   const { toast } = useCart();
 
   const [activeAdminTab, setActiveAdminTab] = useState('dashboard');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showTracking, setShowTracking] = useState(false);
   const [trackingNumber, setTrackingNumber] = useState('');
+
+  // Modals state
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isDailyCloseOpen, setIsDailyCloseOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [completedOrder, setCompletedOrder] = useState(null);
+
+  useEffect(() => {
+    const roleName = user?.role?.name;
+    if (roleName === 'sales_staff') {
+      setActiveAdminTab('pos');
+    } else if (roleName === 'delivery_staff') {
+      setActiveAdminTab('deliveries');
+    }
+  }, [user]);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
