@@ -29,6 +29,15 @@ function AppContent() {
   const [activeAdminTab, setActiveAdminTab] = useState('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
   const [showTracking, setShowTracking] = useState(false);
+
+  React.useEffect(() => {
+    const roleName = user?.role?.name;
+    if (roleName === 'sales_staff') {
+      setActiveAdminTab('pos');
+    } else if (roleName === 'delivery_staff') {
+      setActiveAdminTab('deliveries');
+    }
+  }, [user]);
   
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);

@@ -316,15 +316,20 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
         <div style={{ background: '#1e293b', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', gap: '4px', overflowX: 'auto' }}>
             {[
-              { id: 'dashboard', label: 'Dashboard & Business Pulse', icon: LayoutDashboard },
-              { id: 'pos', label: 'In-Store POS Terminal', icon: Monitor },
-              { id: 'inventory', label: 'Inventory & Stock History', icon: Box },
-              { id: 'orders', label: 'Sales & Orders Pipeline', icon: ShoppingBag },
-              { id: 'deliveries', label: 'Deliveries & Logistics', icon: Truck },
-              { id: 'purchases', label: 'Supplier Purchases', icon: Layers },
-              { id: 'reports', label: 'Profit Intelligence & Audit Logs', icon: TrendingUp },
-              { id: 'staff', label: 'Staff Accounts & Switch User', icon: Users },
-            ].map(tab => {
+              { id: 'dashboard', label: 'Dashboard & Business Pulse', icon: LayoutDashboard, roles: ['admin', 'manager'] },
+              { id: 'pos', label: 'In-Store POS Terminal', icon: Monitor, roles: ['admin', 'manager', 'sales_staff'] },
+              { id: 'inventory', label: 'Inventory & Stock History', icon: Box, roles: ['admin', 'manager', 'inventory_staff'] },
+              { id: 'orders', label: 'Sales & Orders Pipeline', icon: ShoppingBag, roles: ['admin', 'manager', 'sales_staff'] },
+              { id: 'deliveries', label: 'Deliveries & Logistics', icon: Truck, roles: ['admin', 'manager', 'delivery_staff'] },
+              { id: 'purchases', label: 'Supplier Purchases', icon: Layers, roles: ['admin', 'manager', 'inventory_staff'] },
+              { id: 'reports', label: 'Profit Intelligence & Audit Logs', icon: TrendingUp, roles: ['admin', 'manager'] },
+              { id: 'staff', label: 'Staff Accounts & Switch User', icon: Users, roles: ['admin', 'manager'] },
+            ]
+            .filter(tab => {
+              const roleName = user?.role?.name || 'admin';
+              return !tab.roles || tab.roles.includes(roleName) || roleName === 'admin';
+            })
+            .map(tab => {
               const Icon = tab.icon;
               const isActive = activeAdminTab === tab.id;
               return (
