@@ -11,7 +11,6 @@ export default function AdminPurchases() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // New Purchase Order Modal State
   const [showPOModal, setShowPOModal] = useState(false);
   const [supplierMode, setSupplierMode] = useState('existing'); // 'existing' or 'new'
   const [supplierId, setSupplierId] = useState('');
@@ -84,7 +83,6 @@ export default function AdminPurchases() {
       });
 
       setShowPOModal(false);
-      // Reset form
       setSupplierId('');
       setNewSupplierName('');
       setSupplierRepresentative('');
@@ -100,7 +98,6 @@ export default function AdminPurchases() {
     }
   };
 
-  // Add New Supplier Modal State
   const [showSupplierModal, setShowSupplierModal] = useState(false);
   const [supName, setSupName] = useState('');
   const [supContact, setSupContact] = useState('');
@@ -137,8 +134,7 @@ export default function AdminPurchases() {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>Supplier Purchase Orders</h1>
           <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Record new supplier shipments, delivery dates/times, representative details, and auto-increment stock</p>
@@ -157,8 +153,7 @@ export default function AdminPurchases() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="custom-table-container">
+            <div className="custom-table-container">
         <table className="custom-table">
           <thead>
             <tr>
@@ -221,8 +216,7 @@ export default function AdminPurchases() {
         </table>
       </div>
 
-      {/* New Purchase Order Modal */}
-      {showPOModal && (
+            {showPOModal && (
         <div style={{
           position: 'fixed',
           inset: 0,
@@ -244,8 +238,7 @@ export default function AdminPurchases() {
 
             <form onSubmit={handleCreatePO}>
               
-              {/* Supplier Selection Mode Toggle */}
-              <div className="input-group">
+                            <div className="input-group">
                 <label>Supplier Selection</label>
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
                   <button
@@ -305,8 +298,7 @@ export default function AdminPurchases() {
                 )}
               </div>
 
-              {/* Delivery Rep & Date/Time */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div className="input-group">
                   <label>Person Who Supplied / Delivered</label>
                   <input 
@@ -328,8 +320,7 @@ export default function AdminPurchases() {
                 </div>
               </div>
 
-              {/* Product & Quantities */}
-              <div className="input-group">
+                            <div className="input-group">
                 <label>Select Product to Restock</label>
                 <select 
                   className="input-control" 
@@ -379,8 +370,7 @@ export default function AdminPurchases() {
         </div>
       )}
 
-      {/* Standalone Create Supplier Modal */}
-      {showSupplierModal && (
+            {showSupplierModal && (
         <div style={{
           position: 'fixed',
           inset: 0,

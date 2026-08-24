@@ -42,8 +42,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '28px' }}>
           
-          {/* Main Product Image */}
-          <div>
+                    <div>
             <div style={{ width: '100%', height: '300px', borderRadius: '16px', overflow: 'hidden', background: '#f1f5f9' }}>
               <img 
                 src={product.main_image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80'} 
@@ -53,8 +52,7 @@ export default function ProductDetailModal({ product, onClose }) {
             </div>
           </div>
 
-          {/* Product Details & Selection */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                 <StockStatusBadge status={product.stock_status} stock={maxStock} minStock={product.min_stock} />
@@ -71,8 +69,7 @@ export default function ProductDetailModal({ product, onClose }) {
                 {product.description}
               </p>
 
-              {/* Product Variations (If any) */}
-              {product.variations && product.variations.length > 0 && (
+                            {product.variations && product.variations.length > 0 && (
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: '8px' }}>
                     Select Variation:
@@ -101,8 +98,7 @@ export default function ProductDetailModal({ product, onClose }) {
               )}
             </div>
 
-            {/* Actions & Add to Cart */}
-            <div>
+                        <div>
               <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
                 <input 
                   type="number" 

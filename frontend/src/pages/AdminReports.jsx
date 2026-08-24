@@ -60,8 +60,7 @@ export default function AdminReports() {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>Profit Intelligence & Audit Trails</h1>
           <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Gross profit calculations, category margin analysis, and staff audit log history</p>
@@ -83,8 +82,7 @@ export default function AdminReports() {
         </div>
       </div>
 
-      {/* Timeframe Selector Pills (Daily, Weekly, Monthly, Yearly) */}
-      <div className="glass-card" style={{ padding: '12px 18px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+            <div className="glass-card" style={{ padding: '12px 18px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
         <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>Financial Period Report:</span>
         <div style={{ display: 'flex', gap: '8px' }}>
           {[
@@ -114,8 +112,7 @@ export default function AdminReports() {
         </div>
       </div>
 
-      {/* Profit Intelligence Summary Bar */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
         <div className="glass-card" style={{ padding: '20px' }}>
           <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>Total Revenue Processed</span>
           <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#0f172a', margin: '6px 0' }}>
@@ -145,8 +142,7 @@ export default function AdminReports() {
         </div>
       </div>
 
-      {/* System Audit Log Section */}
-      <div className="glass-card" style={{ padding: '24px' }}>
+            <div className="glass-card" style={{ padding: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
           <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <FileText size={20} color="#2563eb" /> System Audit Trail Log

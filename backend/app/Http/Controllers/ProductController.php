@@ -11,10 +11,6 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Public Customer Storefront Catalog Listing
-     * Intelligent Stock Visibility: Automatically filters out stock <= 0
-     */
     public function storefrontIndex(Request $request)
     {
         $query = Product::with(['category', 'images'])
@@ -42,7 +38,6 @@ class ProductController extends Controller
             $query->where('selling_price', '<=', $request->max_price);
         }
 
-        // Sorting
         $sort = $request->get('sort', 'newest');
         if ($sort === 'price_asc') {
             $query->orderBy('selling_price', 'asc');
@@ -57,9 +52,6 @@ class ProductController extends Controller
         return response()->json($query->paginate(12));
     }
 
-    /**
-     * Storefront Product Detail Page
-     */
     public function storefrontShow($slug)
     {
         $product = Product::with(['category', 'supplier', 'images', 'variations'])
@@ -72,9 +64,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    /**
-     * Admin Product Management Catalog
-     */
     public function index(Request $request)
     {
         $query = Product::with(['category', 'supplier', 'variations']);
@@ -103,9 +92,6 @@ class ProductController extends Controller
         return response()->json($query->orderBy('updated_at', 'desc')->get());
     }
 
-    /**
-     * Create Product
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -125,7 +111,6 @@ class ProductController extends Controller
         $validated['slug'] = Str::slug($validated['name']) . '-' . Str::random(5);
         $product = Product::create($validated);
 
-        // Record Initial Stock Movement
         if ($product->stock > 0) {
             InventoryMovement::create([
                 'product_id' => $product->id,
@@ -139,7 +124,6 @@ class ProductController extends Controller
             ]);
         }
 
-        // Audit Log
         AuditLog::create([
             'user_name' => $request->user()?->name ?? 'Admin',
             'user_role' => $request->user()?->role?->name ?? 'admin',
@@ -154,9 +138,6 @@ class ProductController extends Controller
         return response()->json($product->load(['category', 'supplier']), 201);
     }
 
-    /**
-     * Update Product Details / Pricing
-     */
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -191,9 +172,6 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Update Stock / Adjust Quantity
-     */
     public function adjustStock(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -221,7 +199,6 @@ class ProductController extends Controller
 
         $product->update($updateData);
 
-        // Record Inventory Timeline Event
         $movement = InventoryMovement::create([
             'product_id' => $product->id,
             'type' => $validated['type'],
@@ -234,7 +211,6 @@ class ProductController extends Controller
             'exact_timestamp' => now(),
         ]);
 
-        // Record Audit Log
         AuditLog::create([
             'user_name' => $request->user()?->name ?? 'Staff',
             'user_role' => $request->user()?->role?->name ?? 'inventory_staff',
@@ -253,9 +229,6 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Product Performance Profile & History Timeline
-     */
     public function performanceProfile($id)
     {
         $product = Product::with(['category', 'supplier', 'variations', 'inventoryMovements.user'])

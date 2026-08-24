@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // 1. Delivery Zones
         Schema::create('delivery_zones', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -20,7 +19,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 2. Deliveries
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
@@ -29,7 +27,6 @@ return new class extends Migration
             $table->decimal('delivery_fee', 10, 2)->default(0.00);
             $table->string('tracking_number')->unique();
             $table->string('delivery_status')->default('pending');
-            // pending, processing, ready_for_dispatch, dispatched, in_transit, out_for_delivery, delivered, delivery_failed, cancelled, returned
             $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('estimated_delivery_date')->nullable();
             $table->timestamp('dispatched_at')->nullable();
@@ -38,7 +35,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 3. Delivery Addresses
         Schema::create('delivery_addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
@@ -54,7 +50,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 4. Delivery Status History Timeline
         Schema::create('delivery_status_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('delivery_id')->constrained('deliveries')->cascadeOnDelete();

@@ -17,8 +17,7 @@ export default function BusinessPulseCard({ pulse, actionItems, onActionClick })
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '24px' }}>
       
-      {/* 1. Business Pulse Gauge Card */}
-      <div className="navy-card" style={{ padding: '24px', position: 'relative', overflow: 'hidden' }}>
+            <div className="navy-card" style={{ padding: '24px', position: 'relative', overflow: 'hidden' }}>
         <div style={{
           position: 'absolute',
           right: '-20px',
@@ -63,8 +62,7 @@ export default function BusinessPulseCard({ pulse, actionItems, onActionClick })
           </span>
         </div>
 
-        {/* Pulse Score Circle Display */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', margin: '20px 0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '24px', margin: '20px 0' }}>
           <div style={{
             width: '90px',
             height: '90px',
@@ -102,8 +100,7 @@ export default function BusinessPulseCard({ pulse, actionItems, onActionClick })
         </div>
       </div>
 
-      {/* 2. Action Center Card */}
-      <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
             <div style={{

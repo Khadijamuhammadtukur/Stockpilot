@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class PaystackController extends Controller
 {
-    /**
-     * Initialize Paystack Transaction
-     */
     public function initialize(Request $request)
     {
         $request->validate([
@@ -25,9 +22,8 @@ class PaystackController extends Controller
         $secretKey = env('PAYSTACK_SECRET_KEY');
 
         $reference = 'PSTK_' . strtoupper(uniqid()) . '_' . $order->id;
-        $amountInKobo = (int)round($request->amount * 100); // Paystack expects amount in Kobo
+        $amountInKobo = (int)round($request->amount * 100);
 
-        // If Paystack Secret Key is configured, make live Paystack API call
         if ($secretKey && !str_contains($secretKey, 'xxxx')) {
             try {
                 $response = Http::withToken($secretKey)->post('https://api.paystack.co/transaction/initialize', [
@@ -61,11 +57,9 @@ class PaystackController extends Controller
                     ]);
                 }
             } catch (\Exception $e) {
-                // Fallback to local simulation if network error occurs
             }
         }
 
-        // Standardized Simulation Mode for testing out-of-the-box
         Payment::create([
             'order_id' => $order->id,
             'reference' => $reference,
@@ -85,9 +79,6 @@ class PaystackController extends Controller
         ]);
     }
 
-    /**
-     * Verify Paystack Transaction
-     */
     public function verify(Request $request, $reference)
     {
         $payment = Payment::where('reference', $reference)->firstOrFail();
@@ -119,7 +110,6 @@ class PaystackController extends Controller
             }
         }
 
-        // Simulate verification success
         $payment->update(['status' => 'successful']);
         $order->update(['payment_status' => 'paid', 'order_status' => 'processing']);
 

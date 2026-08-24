@@ -76,7 +76,6 @@ class AuthController extends Controller
 
         $user->save();
 
-        // Audit Log
         AuditLog::create([
             'user_id' => $user->id,
             'user_name' => $user->name,

@@ -10,7 +10,6 @@ export default function AdminPos() {
   const [selectedCat, setSelectedCat] = useState('all');
   const [loading, setLoading] = useState(true);
 
-  // Cart State for POS
   const [cart, setCart] = useState([]);
   const [customerName, setCustomerName] = useState('Walk-In Customer');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -23,7 +22,7 @@ export default function AdminPos() {
     try {
       const prods = await apiFetch('/products');
       const cats = await apiFetch('/categories');
-      setProducts(prods.filter(p => p.stock > 0)); // POS active stock items
+      setProducts(prods.filter(p => p.stock > 0));
       setCategories(cats);
     } catch (err) {
       console.error(err);
@@ -109,19 +108,16 @@ export default function AdminPos() {
   return (
     <div style={{ maxWidth: '1380px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Header */}
-      <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px' }}>
         <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>In-Store POS Sales Terminal</h1>
         <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Fast checkout for physical walk-in customers with instant receipt generation</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: '24px' }}>
         
-        {/* Left Column: Product Selection Catalog */}
-        <div>
+                <div>
           
-          {/* Search & Category Filter Bar */}
-          <div className="glass-card" style={{ padding: '16px', marginBottom: '20px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <div className="glass-card" style={{ padding: '16px', marginBottom: '20px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', minWidth: '220px' }}>
               <Search size={18} color="#94a3b8" />
               <input 
@@ -172,8 +168,7 @@ export default function AdminPos() {
             </div>
           </div>
 
-          {/* Product Grid */}
-          {loading ? (
+                    {loading ? (
             <div style={{ textAlign: 'center', padding: '60px', color: '#64748b' }}>Loading store catalog...</div>
           ) : filteredProducts.length === 0 ? (
             <div className="glass-card" style={{ textAlign: 'center', padding: '60px', color: '#64748b' }}>
@@ -222,15 +217,13 @@ export default function AdminPos() {
 
         </div>
 
-        {/* Right Column: POS Cart & Checkout Terminal */}
-        <div>
+                <div>
           <div className="glass-card" style={{ padding: '20px', position: 'sticky', top: '24px' }}>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <ShoppingBag size={18} color="#2563eb" /> Walk-In Order Register
             </h3>
 
-            {/* Cart Items List */}
-            <div style={{ maxHeight: '280px', overflowY: 'auto', marginBottom: '16px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
+                        <div style={{ maxHeight: '280px', overflowY: 'auto', marginBottom: '16px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
               {cart.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '30px 10px', color: '#94a3b8', fontSize: '0.85rem' }}>
                   Click products on the left to add to walk-in cart.
@@ -256,14 +249,12 @@ export default function AdminPos() {
               )}
             </div>
 
-            {/* Total */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 700 }}>Total Payable:</span>
               <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#10b981' }}>₦{cartTotal.toLocaleString()}</span>
             </div>
 
-            {/* Customer Information & Payment Method Form */}
-            <form onSubmit={handleCheckout}>
+                        <form onSubmit={handleCheckout}>
               
               <div className="input-group">
                 <label>Customer Name / Identifier</label>
@@ -370,8 +361,7 @@ export default function AdminPos() {
 
       </div>
 
-      {/* POS Receipt Modal */}
-      {completedOrder && (
+            {completedOrder && (
         <ReceiptModal 
           order={completedOrder} 
           onClose={() => setCompletedOrder(null)} 

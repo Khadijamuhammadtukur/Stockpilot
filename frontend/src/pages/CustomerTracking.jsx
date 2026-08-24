@@ -68,8 +68,7 @@ export default function CustomerTracking({ trackingNumber: propTracking }) {
   return (
     <div style={{ maxWidth: '960px', margin: '0 auto', padding: '40px 20px 80px 20px' }}>
       
-      {/* Search Header */}
-      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <h1 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
           <Package size={36} color="#2563eb" /> Track Your Package
         </h1>
@@ -108,8 +107,7 @@ export default function CustomerTracking({ trackingNumber: propTracking }) {
       {delivery && (
         <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
-          {/* Status Header Card */}
-          <div className="glass-card" style={{ padding: '24px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#ffffff' }}>
+                    <div className="glass-card" style={{ padding: '24px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#ffffff' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
               <div>
                 <span style={{ fontSize: '0.75rem', color: '#94a3b8', uppercase: 'true', letterSpacing: '0.05em', fontWeight: 700 }}>TRACKING NUMBER</span>
@@ -119,16 +117,14 @@ export default function CustomerTracking({ trackingNumber: propTracking }) {
                 </div>
               </div>
 
-              {/* GPS Status Notice Badge */}
-              <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '12px', padding: '10px 16px', textAlign: 'right' }}>
+                            <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '12px', padding: '10px 16px', textAlign: 'right' }}>
                 <span style={{ fontSize: '0.72rem', color: '#38bdf8', fontWeight: 800, uppercase: 'true', display: 'block' }}>GPS LOCATION STATUS</span>
                 <strong style={{ fontSize: '0.85rem', color: '#ffffff' }}>Live GPS Tracking — Coming Soon</strong>
               </div>
             </div>
           </div>
 
-          {/* Progress Timeline Stepper */}
-          <div className="glass-card" style={{ padding: '28px' }}>
+                    <div className="glass-card" style={{ padding: '28px' }}>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Truck size={20} color="#2563eb" /> Fulfillment Status Timeline
             </h3>
@@ -164,11 +160,9 @@ export default function CustomerTracking({ trackingNumber: propTracking }) {
             </div>
           </div>
 
-          {/* Recipient & Package Details Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             
-            {/* Address & Recipient Card */}
-            <div className="glass-card" style={{ padding: '20px' }}>
+                        <div className="glass-card" style={{ padding: '20px' }}>
               <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <MapPin size={18} color="#2563eb" /> Delivery Address
               </h4>
@@ -182,8 +176,7 @@ export default function CustomerTracking({ trackingNumber: propTracking }) {
               </div>
             </div>
 
-            {/* Timeline Log History */}
-            <div className="glass-card" style={{ padding: '20px' }}>
+                        <div className="glass-card" style={{ padding: '20px' }}>
               <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Clock size={18} color="#2563eb" /> Timestamped Audit History
               </h4>

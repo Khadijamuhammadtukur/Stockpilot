@@ -8,7 +8,6 @@ export default function AdminStaff() {
   const [staffList, setStaffList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // New Staff Modal
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -79,8 +78,7 @@ export default function AdminStaff() {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>Staff Accounts & Access Management</h1>
           <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Manage staff credentials, role-based access, and switch active user sessions</p>
@@ -96,8 +94,7 @@ export default function AdminStaff() {
         </div>
       </div>
 
-      {/* Active User Card Banner */}
-      <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#ffffff' }}>
+            <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#ffffff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Shield size={24} color="#38bdf8" />
           <div>
@@ -110,8 +107,7 @@ export default function AdminStaff() {
         </span>
       </div>
 
-      {/* Staff Accounts Table */}
-      <div className="custom-table-container">
+            <div className="custom-table-container">
         <table className="custom-table">
           <thead>
             <tr>
@@ -175,8 +171,7 @@ export default function AdminStaff() {
         </table>
       </div>
 
-      {/* Add Staff Modal */}
-      {showModal && (
+            {showModal && (
         <div style={{
           position: 'fixed',
           inset: 0,

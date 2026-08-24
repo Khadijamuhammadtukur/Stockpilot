@@ -43,8 +43,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
         justifyContent: 'space-between',
         gap: '20px'
       }}>
-        {/* Brand Logo & Tagline */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }} onClick={() => toggleViewMode('storefront')}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }} onClick={() => toggleViewMode('storefront')}>
           <div style={{
             width: '42px',
             height: '42px',
@@ -80,8 +79,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
           </div>
         </div>
 
-        {/* Search Bar (When in Storefront Mode) */}
-        {viewMode === 'storefront' && (
+                {viewMode === 'storefront' && (
           <div style={{ flex: 1, maxWidth: '440px', position: 'relative' }}>
             <Search size={18} color="#94a3b8" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
             <input 
@@ -103,11 +101,9 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
           </div>
         )}
 
-        {/* Dual Interface Switcher & Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           
-          {/* Public Track Package Button */}
-          {viewMode === 'storefront' && (
+                    {viewMode === 'storefront' && (
             <button
               onClick={() => {
                 if (onOpenTracking) onOpenTracking();
@@ -132,8 +128,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
             </button>
           )}
 
-          {/* Daily Close Action Button for Staff/Admin */}
-          {viewMode === 'admin' && user && (
+                    {viewMode === 'admin' && user && (
             <button
               onClick={onOpenDailyCloseModal}
               title="Daily Sales Register Closing & Z-Report"
@@ -156,8 +151,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
             </button>
           )}
 
-          {/* Mode Switcher Pill Toggle */}
-          <div style={{
+                    <div style={{
             background: 'rgba(255, 255, 255, 0.08)',
             padding: '4px',
             borderRadius: '99px',
@@ -210,8 +204,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
             </button>
           </div>
 
-          {/* Cart Icon Button (For Storefront) */}
-          {viewMode === 'storefront' && (
+                    {viewMode === 'storefront' && (
             <button 
               onClick={onOpenCart}
               style={{
@@ -253,8 +246,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
             </button>
           )}
 
-          {/* User Profile / Auth Action */}
-          {user ? (
+                    {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <button 
                 onClick={onOpenSettingsModal}
@@ -322,8 +314,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
         </div>
       </div>
 
-      {/* Sub-Header Navigation for Admin Portal */}
-      {viewMode === 'admin' && (
+            {viewMode === 'admin' && (
         <div style={{ background: '#1e293b', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', gap: '4px', overflowX: 'auto' }}>
             {[

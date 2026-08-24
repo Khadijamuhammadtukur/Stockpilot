@@ -15,10 +15,6 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    /**
-     * Storefront Checkout Process & In-Store POS Order Creation
-     * Performs Live Stock Validation before placing order
-     */
     public function checkout(Request $request)
     {
         $validated = $request->validate([
@@ -45,7 +41,6 @@ class OrderController extends Controller
             $totalCost = 0;
             $itemsToProcess = [];
 
-            // Step 1: Atomic Inventory Verification
             foreach ($validated['items'] as $itemData) {
                 $product = Product::lockForUpdate()->find($itemData['product_id']);
                 
@@ -76,7 +71,6 @@ class OrderController extends Controller
                 ];
             }
 
-            // Calculate Delivery Fee
             $deliveryFee = 0.00;
             $deliveryMethod = $validated['delivery_method'] ?? 'standard';
             $zoneId = $validated['delivery_zone_id'] ?? null;
@@ -92,7 +86,6 @@ class OrderController extends Controller
             $totalAmount = $subtotal + $deliveryFee;
             $grossProfit = $subtotal - $totalCost;
 
-            // Find or create customer record
             $customer = Customer::firstOrCreate(
                 ['email' => $validated['customer_email']],
                 [
@@ -105,7 +98,6 @@ class OrderController extends Controller
             $customer->increment('order_count');
             $customer->increment('total_spend', $totalAmount);
 
-            // Step 2: Create Order
             $isPaid = in_array($validated['payment_method'], ['cash', 'card_pos', 'bank_transfer', 'online_paystack']);
             
             $order = Order::create([
@@ -127,7 +119,6 @@ class OrderController extends Controller
                 'user_id' => $request->user()?->id,
             ]);
 
-            // Create Delivery Record & Tracking Number
             $trackingNumber = 'TRK-' . strtoupper(Str::random(8));
             $delivery = \App\Models\Delivery::create([
                 'order_id' => $order->id,
@@ -139,7 +130,6 @@ class OrderController extends Controller
                 'notes' => $validated['delivery_notes'] ?? null,
             ]);
 
-            // Create Delivery Address
             \App\Models\DeliveryAddress::create([
                 'order_id' => $order->id,
                 'delivery_id' => $delivery->id,
@@ -153,7 +143,6 @@ class OrderController extends Controller
                 'delivery_notes' => $validated['delivery_notes'] ?? null,
             ]);
 
-            // Initial Delivery Status History Log
             \App\Models\DeliveryStatusHistory::create([
                 'delivery_id' => $delivery->id,
                 'status' => 'processing',
@@ -162,17 +151,13 @@ class OrderController extends Controller
                 'exact_timestamp' => now(),
             ]);
 
-            // Step 3: Process Items & Deduct Inventory Automatically
             foreach ($itemsToProcess as $item) {
-                /** @var Product $product */
                 $product = $item['product'];
                 $prevStock = $product->stock;
                 $newStock = $prevStock - $item['quantity'];
 
-                // Deduct Product Stock
                 $product->update(['stock' => $newStock]);
 
-                // Create Order Item
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
@@ -183,7 +168,6 @@ class OrderController extends Controller
                     'subtotal' => $item['subtotal'],
                 ]);
 
-                // Record Inventory Movement Timeline
                 InventoryMovement::create([
                     'product_id' => $product->id,
                     'type' => 'sale',
@@ -197,7 +181,6 @@ class OrderController extends Controller
                 ]);
             }
 
-            // Create Payment Record
             if ($isPaid) {
                 Payment::create([
                     'order_id' => $order->id,
@@ -209,7 +192,6 @@ class OrderController extends Controller
                 ]);
             }
 
-            // Create System Audit Log
             AuditLog::create([
                 'user_name' => $validated['customer_name'],
                 'user_role' => 'customer',
@@ -229,9 +211,6 @@ class OrderController extends Controller
         });
     }
 
-    /**
-     * Admin Order List
-     */
     public function index(Request $request)
     {
         $query = Order::with(['items.product', 'customer']);
@@ -252,9 +231,6 @@ class OrderController extends Controller
         return response()->json($query->orderBy('created_at', 'desc')->get());
     }
 
-    /**
-     * Order Detail / Receipt
-     */
     public function show($id)
     {
         $order = Order::with(['items.product', 'customer', 'payments', 'user'])
@@ -265,9 +241,6 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    /**
-     * Update Order Status
-     */
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -279,7 +252,6 @@ class OrderController extends Controller
 
         $order->update($validated);
 
-        // Audit Log
         AuditLog::create([
             'user_name' => $request->user()?->name ?? 'Staff',
             'user_role' => $request->user()?->role?->name ?? 'sales_staff',

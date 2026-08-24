@@ -35,7 +35,6 @@ class PurchaseController extends Controller
         ]);
 
         return DB::transaction(function () use ($validated, $request) {
-            // Resolve Supplier (Existing or New Advertising Supplier on the fly)
             $supplierId = null;
             $supplierName = 'Unknown Supplier';
 
@@ -97,7 +96,6 @@ class PurchaseController extends Controller
                     'subtotal' => $item['subtotal'],
                 ]);
 
-                // Auto-update Product Stock, Cost Price & Selling Price
                 $product = Product::find($item['product_id']);
                 $prevStock = $product->stock;
                 $newStock = $prevStock + $item['qty_received'];
@@ -112,7 +110,6 @@ class PurchaseController extends Controller
 
                 $product->update($updateData);
 
-                // Record Inventory Movement Timeline
                 InventoryMovement::create([
                     'product_id' => $product->id,
                     'type' => 'receive',
@@ -126,7 +123,6 @@ class PurchaseController extends Controller
                 ]);
             }
 
-            // Audit Log
             AuditLog::create([
                 'user_name' => $staffName,
                 'user_role' => $request->user()?->role?->name ?? 'staff',

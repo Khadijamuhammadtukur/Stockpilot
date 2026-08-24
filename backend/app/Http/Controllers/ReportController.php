@@ -67,9 +67,6 @@ class ReportController extends Controller
         ]);
     }
 
-    /**
-     * Daily Register Closing & Z-Report Summary
-     */
     public function dailyCloseSummary(Request $request)
     {
         $todayStart = now()->startOfDay();
@@ -85,13 +82,11 @@ class ReportController extends Controller
         $grossProfit = $totalRevenue - $totalCost;
         $salesCount = $todayOrders->count();
 
-        // Payment methods breakdown
         $cashTotal = $todayOrders->where('payment_method', 'cash')->sum('total_amount');
         $cardPosTotal = $todayOrders->where('payment_method', 'card_pos')->sum('total_amount');
         $transferTotal = $todayOrders->where('payment_method', 'bank_transfer')->sum('total_amount');
         $onlineTotal = $todayOrders->where('payment_method', 'online_paystack')->sum('total_amount');
 
-        // Itemized items sold today
         $orderIds = $todayOrders->pluck('id');
         $itemsSold = DB::table('order_items')
             ->whereIn('order_id', $orderIds)
@@ -99,7 +94,6 @@ class ReportController extends Controller
             ->groupBy('product_name', 'price')
             ->get();
 
-        // Check if closed today
         $closedLog = AuditLog::where('action', 'DAILY_REGISTER_CLOSED')
             ->whereBetween('created_at', [$todayStart, $todayEnd])
             ->first();
@@ -125,9 +119,6 @@ class ReportController extends Controller
         ]);
     }
 
-    /**
-     * Close Register for Today & Log Z-Report Audit
-     */
     public function closeDailyRegister(Request $request)
     {
         $todayStart = now()->startOfDay();
@@ -158,9 +149,6 @@ class ReportController extends Controller
         ]);
     }
 
-    /**
-     * Re-open Register for Today (For Mistake Corrections)
-     */
     public function reopenDailyRegister(Request $request)
     {
         $todayStart = now()->startOfDay();

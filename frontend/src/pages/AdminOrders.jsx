@@ -56,8 +56,7 @@ export default function AdminOrders() {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>Sales & Orders Pipeline</h1>
           <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Monitor customer online orders, POS sales, order fulfillment, and receipts</p>
@@ -72,8 +71,7 @@ export default function AdminOrders() {
         </div>
       </div>
 
-      {/* Filter Bar */}
-      <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
+            <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '260px' }}>
           <Search size={18} color="#94a3b8" />
           <input 
@@ -103,8 +101,7 @@ export default function AdminOrders() {
         </div>
       </div>
 
-      {/* Orders Table */}
-      <div className="custom-table-container">
+            <div className="custom-table-container">
         <table className="custom-table">
           <thead>
             <tr>
@@ -190,8 +187,7 @@ export default function AdminOrders() {
         </table>
       </div>
 
-      {/* Digital Receipt Modal */}
-      {selectedReceiptOrder && (
+            {selectedReceiptOrder && (
         <ReceiptModal 
           order={selectedReceiptOrder} 
           onClose={() => setSelectedReceiptOrder(null)} 

@@ -32,7 +32,6 @@ function AppContent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showTracking, setShowTracking] = useState(false);
   
-  // Modals state
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDailyCloseOpen, setIsDailyCloseOpen] = useState(false);
@@ -43,8 +42,7 @@ function AppContent() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
       
-      {/* Toast Overlay */}
-      {toast && (
+            {toast && (
         <div style={{
           position: 'fixed',
           bottom: '24px',
@@ -65,8 +63,7 @@ function AppContent() {
         </div>
       )}
 
-      {/* Main Navbar */}
-      <Navbar 
+            <Navbar 
         onOpenCart={() => setIsCartOpen(true)}
         onOpenAuthModal={() => setIsAuthOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
@@ -78,8 +75,7 @@ function AppContent() {
         setSearchTerm={setSearchTerm}
       />
 
-      {/* Main Content Area */}
-      <main style={{ flex: 1 }}>
+            <main style={{ flex: 1 }}>
         {showTracking ? (
           <div>
             <div style={{ maxWidth: '960px', margin: '20px auto 0 auto', padding: '0 20px' }}>
@@ -102,7 +98,6 @@ function AppContent() {
                   onOpenCart={() => setIsCartOpen(true)}
                 />
               ) : (
-                /* Admin Portal Interface */
                 !user ? (
                   <div style={{ textAlign: 'center', padding: '100px 20px' }}>
                     <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
@@ -133,8 +128,7 @@ function AppContent() {
         )}
       </main>
 
-      {/* Global Modals */}
-      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+            <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
       <DailyCloseModal isOpen={isDailyCloseOpen} onClose={() => setIsDailyCloseOpen(false)} />
       <CartDrawer 

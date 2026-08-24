@@ -32,8 +32,6 @@ export default function AdminDashboard({ onNavigateTab }) {
 
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
-      
-      {/* Top Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>Business Operations Command Center</h1>
@@ -44,7 +42,6 @@ export default function AdminDashboard({ onNavigateTab }) {
         </button>
       </div>
 
-      {/* 1. Business Pulse & Action Center Section */}
       <BusinessPulseCard 
         pulse={business_pulse} 
         actionItems={action_center} 
@@ -54,10 +51,7 @@ export default function AdminDashboard({ onNavigateTab }) {
         }} 
       />
 
-      {/* 2. KPI Cards Bar */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '28px' }}>
-        
-        {/* Total Revenue */}
         <div className="glass-card" style={{ padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#64748b', fontSize: '0.82rem', fontWeight: 600 }}>
             <span>Total Revenue</span>
@@ -71,7 +65,6 @@ export default function AdminDashboard({ onNavigateTab }) {
           </span>
         </div>
 
-        {/* Estimated Profit */}
         <div className="glass-card" style={{ padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#64748b', fontSize: '0.82rem', fontWeight: 600 }}>
             <span>Estimated Profit</span>
@@ -85,7 +78,6 @@ export default function AdminDashboard({ onNavigateTab }) {
           </span>
         </div>
 
-        {/* Inventory Valuation */}
         <div className="glass-card" style={{ padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#64748b', fontSize: '0.82rem', fontWeight: 600 }}>
             <span>Inventory Valuation</span>
@@ -99,7 +91,6 @@ export default function AdminDashboard({ onNavigateTab }) {
           </span>
         </div>
 
-        {/* Stock Risks */}
         <div className="glass-card" style={{ padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#64748b', fontSize: '0.82rem', fontWeight: 600 }}>
             <span>Critical / Out of Stock</span>
@@ -112,13 +103,9 @@ export default function AdminDashboard({ onNavigateTab }) {
             {metrics?.out_of_stock_count || 0} Hidden from Storefront
           </span>
         </div>
-
       </div>
 
-      {/* 3. Recent Movements & Fast/Slow Movers Section */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px' }}>
-        
-        {/* Inventory Timeline Feed */}
         <div className="glass-card" style={{ padding: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
             <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -155,7 +142,6 @@ export default function AdminDashboard({ onNavigateTab }) {
           </div>
         </div>
 
-        {/* Fast & Slow Moving Products */}
         <div className="glass-card" style={{ padding: '24px' }}>
           <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Box size={18} color="#06b6d4" /> Stock Turnover Analysis
@@ -185,9 +171,7 @@ export default function AdminDashboard({ onNavigateTab }) {
             ))}
           </div>
         </div>
-
       </div>
-
     </div>
   );
 }

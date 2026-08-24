@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class DeliveryController extends Controller
 {
-    /**
-     * Admin/Staff List of Deliveries with Filters
-     */
     public function index(Request $request)
     {
         $query = Delivery::with(['order', 'zone', 'courier', 'address', 'statusHistories']);
@@ -49,9 +46,6 @@ class DeliveryController extends Controller
         return response()->json($deliveries);
     }
 
-    /**
-     * Public Customer Tracking Endpoint
-     */
     public function show($tracking_number)
     {
         $delivery = Delivery::with([
@@ -75,9 +69,6 @@ class DeliveryController extends Controller
         ]);
     }
 
-    /**
-     * Update Delivery Status & Create History Entry
-     */
     public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
@@ -100,7 +91,6 @@ class DeliveryController extends Controller
 
         if ($validated['status'] === 'delivered') {
             $delivery->delivered_at = now();
-            // Also sync order status to completed if appropriate
             if ($delivery->order) {
                 $delivery->order->update(['order_status' => 'completed']);
             }
@@ -110,7 +100,6 @@ class DeliveryController extends Controller
 
         $userName = $request->user()?->name ?? $request->input('staff_name') ?? 'Admin/Staff';
 
-        // Add to Delivery Status Timeline History
         DeliveryStatusHistory::create([
             'delivery_id' => $delivery->id,
             'status' => $validated['status'],
@@ -120,7 +109,6 @@ class DeliveryController extends Controller
             'exact_timestamp' => now(),
         ]);
 
-        // Add to System Audit Log
         AuditLog::create([
             'user_id' => $request->user()?->id,
             'user_name' => $userName,
@@ -137,9 +125,6 @@ class DeliveryController extends Controller
         ]);
     }
 
-    /**
-     * Assign Delivery Staff / Courier
-     */
     public function assignStaff(Request $request, $id)
     {
         $validated = $request->validate([
@@ -168,9 +153,6 @@ class DeliveryController extends Controller
         ]);
     }
 
-    /**
-     * Active Deliveries Assigned to Current Courier
-     */
     public function myDeliveries(Request $request)
     {
         $user = $request->user();
@@ -186,9 +168,6 @@ class DeliveryController extends Controller
         return response()->json($deliveries);
     }
 
-    /**
-     * Delivery Zones Endpoints
-     */
     public function deliveryZones()
     {
         $zones = DeliveryZone::where('is_active', true)->get();

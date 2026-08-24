@@ -88,7 +88,6 @@ export default function AdminInventory() {
   const [timelineProduct, setTimelineProduct] = useState(null);
   const [timelineData, setTimelineData] = useState([]);
 
-  // Create Product Modal State
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newProductName, setNewProductName] = useState('');
   const [newProductSku, setNewProductSku] = useState('');
@@ -198,8 +197,7 @@ export default function AdminInventory() {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Top Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>Inventory & Stock Management</h1>
           <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Click any price directly in table to edit instantaneously without opening modals</p>
@@ -218,8 +216,7 @@ export default function AdminInventory() {
         </div>
       </div>
 
-      {/* Filter Bar */}
-      <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
+            <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '260px' }}>
           <Search size={18} color="#94a3b8" />
           <input 
@@ -247,8 +244,7 @@ export default function AdminInventory() {
         </div>
       </div>
 
-      {/* Main Table */}
-      <div className="custom-table-container">
+            <div className="custom-table-container">
         <table className="custom-table">
           <thead>
             <tr>
@@ -340,8 +336,7 @@ export default function AdminInventory() {
         </table>
       </div>
 
-      {/* Restock Modal */}
-      {selectedProductForRestock && (
+            {selectedProductForRestock && (
         <InventoryMovementModal 
           product={selectedProductForRestock} 
           onClose={() => setSelectedProductForRestock(null)} 
@@ -349,8 +344,7 @@ export default function AdminInventory() {
         />
       )}
 
-      {/* Create Product Modal */}
-      {showCreateModal && (
+            {showCreateModal && (
         <div style={{
           position: 'fixed',
           inset: 0,
@@ -422,8 +416,7 @@ export default function AdminInventory() {
                 </div>
               </div>
 
-              {/* Preset Image Selector Grid */}
-              <div className="input-group">
+                            <div className="input-group">
                 <label>Select Product Image (Click Thumbnail)</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', marginBottom: '8px' }}>
                   {[

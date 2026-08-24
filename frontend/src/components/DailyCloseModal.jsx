@@ -95,8 +95,7 @@ export default function DailyCloseModal({ isOpen, onClose }) {
           <X size={22} />
         </button>
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '24px', borderBottom: '2px dashed #cbd5e1', paddingBottom: '16px' }}>
+                <div style={{ textAlign: 'center', marginBottom: '24px', borderBottom: '2px dashed #cbd5e1', paddingBottom: '16px' }}>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             STOCKPILOT • DAILY SALES CLOSE (Z-REPORT)
           </h2>
@@ -126,8 +125,7 @@ export default function DailyCloseModal({ isOpen, onClose }) {
         ) : (
           <div>
             
-            {/* Main Financial KPI Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
               <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
                 <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 700 }}>TOTAL REVENUE MADE TODAY</span>
                 <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#10b981', marginTop: '2px' }}>
@@ -145,8 +143,7 @@ export default function DailyCloseModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            {/* Payment Method Breakdown */}
-            <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '10px', padding: '14px', marginBottom: '20px' }}>
+                        <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '10px', padding: '14px', marginBottom: '20px' }}>
               <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a', marginBottom: '10px', textTransform: 'uppercase' }}>
                 Payment Method Totals
               </h4>
@@ -170,8 +167,7 @@ export default function DailyCloseModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            {/* Items Sold Today Table */}
-            <div style={{ marginBottom: '24px' }}>
+                        <div style={{ marginBottom: '24px' }}>
               <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a', marginBottom: '10px', textTransform: 'uppercase' }}>
                 Items Bought & Sold Today
               </h4>
@@ -204,8 +200,7 @@ export default function DailyCloseModal({ isOpen, onClose }) {
               )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="no-print" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                        <div className="no-print" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
               <button type="button" className="btn btn-secondary" style={{ flex: 1 }} onClick={onClose}>
                 Close View
               </button>

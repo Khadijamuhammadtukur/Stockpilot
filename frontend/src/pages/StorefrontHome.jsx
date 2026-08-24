@@ -46,8 +46,7 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Hero Banner */}
-      <div className="navy-card" style={{
+            <div className="navy-card" style={{
         padding: '40px 32px',
         marginBottom: '32px',
         position: 'relative',
@@ -91,8 +90,7 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
           </div>
         </div>
 
-        {/* Hero Decorative Graphic */}
-        <div style={{
+                <div style={{
           width: '240px',
           height: '240px',
           borderRadius: '24px',
@@ -107,8 +105,7 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
         </div>
       </div>
 
-      {/* Category Pills & Filters */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }}>
           <button 
             onClick={() => setSelectedCategory('')}
@@ -147,14 +144,12 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
           ))}
         </div>
 
-        {/* Intelligent Visibility Notice */}
-        <span style={{ fontSize: '0.78rem', color: '#64748b', background: '#f1f5f9', padding: '6px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '0.78rem', color: '#64748b', background: '#f1f5f9', padding: '6px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           💡 <strong>Intelligent Stock Visibility:</strong> Products with 0 stock are automatically hidden.
         </span>
       </div>
 
-      {/* Product Catalog Grid */}
-      {loading ? (
+            {loading ? (
         <div style={{ textAlign: 'center', padding: '80px 0', color: '#64748b' }}>
           Fetching available inventory...
         </div>
@@ -180,8 +175,7 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
               }}
             >
               <div>
-                {/* Image Container */}
-                <div style={{ position: 'relative', width: '100%', height: '200px', background: '#f1f5f9', overflow: 'hidden' }}>
+                                <div style={{ position: 'relative', width: '100%', height: '200px', background: '#f1f5f9', overflow: 'hidden' }}>
                   <img 
                     src={product.main_image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80'} 
                     alt={product.name} 
@@ -207,8 +201,7 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
                   )}
                 </div>
 
-                {/* Product Content */}
-                <div style={{ padding: '16px' }}>
+                                <div style={{ padding: '16px' }}>
                   <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontFamily: 'monospace', fontWeight: 600 }}>SKU: {product.sku}</span>
                   <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: '4px 0 8px 0', lineHeight: 1.3 }}>
                     {product.name}
@@ -219,8 +212,7 @@ export default function StorefrontHome({ searchTerm, onSelectProduct, onOpenCart
                 </div>
               </div>
 
-              {/* Price & Action */}
-              <div style={{ padding: '16px', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ padding: '16px', borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ fontSize: '0.7rem', color: '#64748b', display: 'block' }}>Price</span>
                   <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#2563eb' }}>

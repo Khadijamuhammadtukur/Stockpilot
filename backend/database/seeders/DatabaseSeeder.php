@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Roles
         $adminRole = Role::create(['name' => 'admin', 'display_name' => 'Administrator', 'description' => 'Full System Access']);
         $managerRole = Role::create(['name' => 'manager', 'display_name' => 'Store Manager', 'description' => 'Operations & Stock Supervision']);
         $salesRole = Role::create(['name' => 'sales_staff', 'display_name' => 'Sales Staff', 'description' => 'POS & Order Processing']);
@@ -27,7 +26,6 @@ class DatabaseSeeder extends Seeder
         $deliveryStaffRole = Role::create(['name' => 'delivery_staff', 'display_name' => 'Delivery Staff', 'description' => 'Courier & Dispatch Fulfillment']);
         $customerRole = Role::create(['name' => 'customer', 'display_name' => 'Customer', 'description' => 'Storefront Shopper']);
 
-        // 2. Users
         $admin = User::create([
             'role_id' => $adminRole->id,
             'name' => 'Chief Operations',
@@ -52,7 +50,6 @@ class DatabaseSeeder extends Seeder
             'phone' => '+234 803 555 7788',
         ]);
 
-        // 2b. Delivery Zones
         \App\Models\DeliveryZone::create([
             'name' => 'Central Metro Zone',
             'city_region' => 'Metropolitan City Center',
@@ -80,12 +77,10 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // 3. Categories
         $electronics = Category::create(['name' => 'Electronics', 'slug' => 'electronics', 'description' => 'Gadgets, audio, and devices']);
         $fashion = Category::create(['name' => 'Fashion', 'slug' => 'fashion', 'description' => 'Apparel, shoes, and accessories']);
         $groceries = Category::create(['name' => 'Groceries', 'slug' => 'groceries', 'description' => 'Daily consumer goods']);
 
-        // 4. Suppliers
         $supplier1 = Supplier::create([
             'name' => 'TechDistro West Africa',
             'contact_person' => 'Emmanuel Adebayo',
@@ -102,7 +97,6 @@ class DatabaseSeeder extends Seeder
             'address' => 'Ikeja, Lagos, Nigeria'
         ]);
 
-        // 5. Products
         $p1 = Product::create([
             'name' => 'Wireless Noise-Canceling Headphones',
             'slug' => 'wireless-noise-canceling-headphones',
@@ -175,7 +169,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'RGB backlit mechanical keyboard with tactile blue switches.',
         ]);
 
-        // 6. Inventory Movements
         InventoryMovement::create([
             'product_id' => $p1->id,
             'type' => 'receive',
@@ -200,7 +193,6 @@ class DatabaseSeeder extends Seeder
             'exact_timestamp' => now()->subHours(5),
         ]);
 
-        // 7. Audit Logs
         AuditLog::create([
             'user_id' => $admin->id,
             'user_name' => $admin->name,

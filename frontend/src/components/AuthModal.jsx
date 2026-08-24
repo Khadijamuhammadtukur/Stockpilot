@@ -102,8 +102,7 @@ export default function AuthModal({ isOpen, onClose }) {
           </button>
         </form>
 
-        {/* Demo Fast Login Pills */}
-        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+                <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
           <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Quick Demo Login
           </span>

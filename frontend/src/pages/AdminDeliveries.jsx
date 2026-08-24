@@ -11,24 +11,20 @@ export default function AdminDeliveries() {
   const [couriers, setCouriers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Filters
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [zoneFilter, setZoneFilter] = useState('');
 
-  // Modals
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [statusModal, setStatusModal] = useState(false);
   const [assignModal, setAssignModal] = useState(false);
   const [zoneModal, setZoneModal] = useState(false);
 
-  // Form states
   const [newStatus, setNewStatus] = useState('processing');
   const [statusNote, setStatusNote] = useState('');
   const [estimatedDate, setEstimatedDate] = useState('');
   const [assignedStaffId, setAssignedStaffId] = useState('');
 
-  // Zone Form State
   const [zoneName, setZoneName] = useState('');
   const [zoneRegion, setZoneRegion] = useState('');
   const [standardFee, setStandardFee] = useState('1500');
@@ -51,7 +47,6 @@ export default function AdminDeliveries() {
 
       setDeliveries(dData || []);
       setZones(zData || []);
-      // Filter couriers/staff
       setCouriers(uData?.filter(u => u.role?.name === 'delivery_staff' || u.role?.name === 'admin' || u.role?.name === 'sales_staff') || []);
     } catch (err) {
       console.error('Error fetching deliveries:', err);
@@ -158,8 +153,7 @@ export default function AdminDeliveries() {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 60px 20px' }}>
       
-      {/* Page Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '14px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Truck size={28} color="#2563eb" /> Delivery & Logistics Management
@@ -179,8 +173,7 @@ export default function AdminDeliveries() {
         </div>
       </div>
 
-      {/* Filter Bar */}
-      <div className="glass-card" style={{ padding: '16px', marginBottom: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="glass-card" style={{ padding: '16px', marginBottom: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ flex: 1, minWidth: '220px', position: 'relative' }}>
           <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
           <input 
@@ -214,8 +207,7 @@ export default function AdminDeliveries() {
         </div>
       </div>
 
-      {/* Delivery Cards / Table */}
-      <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+            <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
         {loading ? (
           <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Loading logistics data...</div>
         ) : deliveries.length === 0 ? (
@@ -293,8 +285,7 @@ export default function AdminDeliveries() {
         )}
       </div>
 
-      {/* Update Delivery Status Modal */}
-      {statusModal && selectedDelivery && (
+            {statusModal && selectedDelivery && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 230, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '480px', padding: '24px' }}>
             <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
@@ -336,8 +327,7 @@ export default function AdminDeliveries() {
         </div>
       )}
 
-      {/* Assign Courier Staff Modal */}
-      {assignModal && selectedDelivery && (
+            {assignModal && selectedDelivery && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 230, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '440px', padding: '24px' }}>
             <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
@@ -366,8 +356,7 @@ export default function AdminDeliveries() {
         </div>
       )}
 
-      {/* Configure Delivery Zone Modal */}
-      {zoneModal && (
+            {zoneModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 230, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '480px', padding: '24px' }}>
             <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>

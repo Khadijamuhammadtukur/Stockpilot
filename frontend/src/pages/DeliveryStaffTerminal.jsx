@@ -45,8 +45,7 @@ export default function DeliveryStaffTerminal() {
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '24px 16px 80px 16px' }}>
       
-      {/* Courier Header */}
-      <div className="glass-card" style={{ padding: '20px', marginBottom: '24px', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', color: '#ffffff' }}>
+            <div className="glass-card" style={{ padding: '20px', marginBottom: '24px', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', color: '#ffffff' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <span style={{ fontSize: '0.75rem', color: '#a5b4fc', uppercase: 'true', fontWeight: 800 }}>COURIER DISPATCH TERMINAL</span>
@@ -61,8 +60,7 @@ export default function DeliveryStaffTerminal() {
         </div>
       </div>
 
-      {/* Packages List */}
-      <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         <PackageCheck size={20} color="#2563eb" /> Active Assigned Deliveries
       </h3>
 
@@ -96,15 +94,13 @@ export default function DeliveryStaffTerminal() {
                 </span>
               </div>
 
-              {/* Destination Address */}
-              <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '14px', fontSize: '0.85rem' }}>
+                            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '14px', fontSize: '0.85rem' }}>
                 <div style={{ fontWeight: 800, color: '#0f172a' }}>Recipient: {d.address?.recipient_name || d.order?.customer_name}</div>
                 <div style={{ color: '#2563eb', fontWeight: 700 }}>Phone: {d.address?.phone || d.order?.customer_phone || 'N/A'}</div>
                 <div style={{ color: '#475569', marginTop: '4px' }}>Address: {d.address?.address}</div>
               </div>
 
-              {/* Courier Quick Action Buttons */}
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <button 
                   className="btn btn-secondary" 
                   style={{ flex: 1, padding: '8px', fontSize: '0.8rem' }}

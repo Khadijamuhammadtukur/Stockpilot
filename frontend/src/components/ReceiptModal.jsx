@@ -35,8 +35,7 @@ export default function ReceiptModal({ order, onClose }) {
           <X size={22} />
         </button>
 
-        {/* Receipt Header */}
-        <div style={{ textAlign: 'center', paddingBottom: '20px', borderBottom: '2px dashed #cbd5e1' }}>
+                <div style={{ textAlign: 'center', paddingBottom: '20px', borderBottom: '2px dashed #cbd5e1' }}>
           <div style={{
             width: '48px',
             height: '48px',
@@ -59,8 +58,7 @@ export default function ReceiptModal({ order, onClose }) {
           </span>
         </div>
 
-        {/* Order Info Bar */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', margin: '20px 0', fontSize: '0.82rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', margin: '20px 0', fontSize: '0.82rem' }}>
           <div>
             <span style={{ color: '#64748b', display: 'block' }}>Order Number:</span>
             <strong style={{ color: '#0f172a', fontSize: '0.9rem' }}>{order.order_number}</strong>
@@ -88,8 +86,7 @@ export default function ReceiptModal({ order, onClose }) {
           </div>
         </div>
 
-        {/* Item List Table */}
-        <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '20px' }}>
+                <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '20px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
             <thead style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
               <tr>
@@ -114,8 +111,7 @@ export default function ReceiptModal({ order, onClose }) {
           </table>
         </div>
 
-        {/* Subtotal & Grand Total */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '14px', background: '#f8fafc', borderRadius: '8px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '14px', background: '#f8fafc', borderRadius: '8px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#64748b' }}>
             <span>Subtotal</span>
             <span>₦{Number(order.subtotal || order.total_amount).toLocaleString()}</span>
@@ -126,8 +122,7 @@ export default function ReceiptModal({ order, onClose }) {
           </div>
         </div>
 
-        {/* Footer Buttons */}
-        <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
           <button className="btn btn-secondary" style={{ flex: 1 }} onClick={handlePrint}>
             <Printer size={16} />
             Print Receipt

@@ -13,13 +13,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Total Revenue & Gross Profit
         $totalRevenue = Order::whereIn('payment_status', ['paid', 'completed'])->sum('total_amount');
         $totalCost = Order::whereIn('payment_status', ['paid', 'completed'])->sum('total_cost');
         $estimatedProfit = $totalRevenue - $totalCost;
         $totalSalesCount = Order::whereIn('payment_status', ['paid', 'completed'])->count();
 
-        // Total Inventory Valuation & Counts
         $totalProducts = Product::where('status', 'active')->count();
         $totalInventoryValue = Product::where('status', 'active')->select(DB::raw('SUM(stock * cost_price) as total_val'))->value('total_val') ?? 0;
         
@@ -28,21 +26,17 @@ class DashboardController extends Controller
         $outOfStockCount = Product::where('status', 'active')->where('stock', '<=', 0)->count();
         $pendingOrdersCount = Order::where('order_status', 'pending')->count();
 
-        // Business Pulse Calculation (0 - 100)
-        // Deduct points for high out-of-stock ratio or high critical stock
         $stockHealthScore = 100;
         if ($totalProducts > 0) {
             $riskRatio = ($outOfStockCount + $criticalStockCount) / $totalProducts;
             $stockHealthScore -= min(40, round($riskRatio * 100));
         }
 
-        // Profitability Status
         $profitMargin = $totalRevenue > 0 ? round(($estimatedProfit / $totalRevenue) * 100, 1) : 0;
 
         $pulseScore = max(10, min(100, $stockHealthScore));
         $pulseLabel = $pulseScore >= 80 ? 'Healthy' : ($pulseScore >= 60 ? 'Attention Needed' : 'Critical Action Required');
 
-        // Action Center Items
         $actionItems = [];
         if ($criticalStockCount > 0) {
             $actionItems[] = [
@@ -72,16 +66,13 @@ class DashboardController extends Controller
             ];
         }
 
-        // Recent Sales
         $recentSales = Order::orderBy('created_at', 'desc')->take(5)->get();
 
-        // Recent Movements
         $recentMovements = InventoryMovement::with(['product', 'user'])
             ->orderBy('exact_timestamp', 'desc')
             ->take(6)
             ->get();
 
-        // Fast & Slow Moving Products
         $fastMovers = Product::where('status', 'active')->orderBy('stock', 'asc')->take(5)->get();
         $slowMovers = Product::where('status', 'active')->orderBy('stock', 'desc')->take(5)->get();
 

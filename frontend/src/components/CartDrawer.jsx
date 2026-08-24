@@ -109,8 +109,7 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
         flexDirection: 'column',
         boxShadow: '-8px 0 24px rgba(0,0,0,0.15)'
       }}>
-        {/* Cart Header */}
-        <div style={{
+                <div style={{
           padding: '20px 24px',
           background: '#0f172a',
           color: '#ffffff',
@@ -129,8 +128,7 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
           </button>
         </div>
 
-        {/* Content Body */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+                <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
           {errorMsg && (
             <div style={{ padding: '12px', borderRadius: '8px', background: '#fef2f2', color: '#ef4444', fontSize: '0.82rem', marginBottom: '14px' }}>
               {errorMsg}
@@ -200,7 +198,6 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
               </div>
             )
           ) : (
-            /* Checkout Form */
             <form id="checkout-form" onSubmit={handleCheckout}>
               <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '14px', color: '#0f172a' }}>Customer Information</h4>
               <div className="input-group">
@@ -342,8 +339,7 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
           )}
         </div>
 
-        {/* Footer Subtotal & Action */}
-        {cart.length > 0 && (
+                {cart.length > 0 && (
           <div style={{ padding: '20px', borderTop: '1px solid #e2e8f0', background: '#f8fafc' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#64748b' }}>

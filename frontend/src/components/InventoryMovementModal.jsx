@@ -121,8 +121,7 @@ export default function InventoryMovementModal({ product, onClose, onRefresh }) 
             />
           </div>
 
-          {/* Pricing Updates on the fly */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div className="input-group">
               <label>Cost Price (₦)</label>
               <input 

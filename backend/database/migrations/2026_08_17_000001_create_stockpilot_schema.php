@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Roles table
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique(); // admin, manager, sales_staff, inventory_staff, customer
@@ -17,14 +16,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Add role_id and phone to users table if not existing
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('role_id')->nullable()->after('id');
             $table->string('phone')->nullable()->after('email');
             $table->string('avatar')->nullable();
         });
 
-        // Categories
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -36,7 +33,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Suppliers
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -48,7 +44,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Customer Profiles
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
@@ -61,7 +56,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Products
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -83,7 +77,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Product Images
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
@@ -92,7 +85,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Product Variations
         Schema::create('product_variations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
@@ -104,7 +96,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Inventory Movement Timeline
         Schema::create('inventory_movements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
@@ -120,7 +111,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Purchases (Supplier POs)
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string('purchase_number')->unique();
@@ -136,7 +126,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Purchase Items
         Schema::create('purchase_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('purchase_id')->constrained('purchases')->cascadeOnDelete();
@@ -149,7 +138,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Orders (Online Customer Orders & In-Store POS)
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_number')->unique();
@@ -171,7 +159,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Order Items
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
@@ -185,7 +172,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Payments
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
@@ -198,7 +184,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Audit Logs
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
