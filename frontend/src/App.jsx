@@ -19,6 +19,11 @@ import AdminReports from './pages/AdminReports';
 import AdminPos from './pages/AdminPos';
 import AdminStaff from './pages/AdminStaff';
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AdminDeliveries from './pages/AdminDeliveries';
+import CustomerTracking from './pages/CustomerTracking';
+import DeliveryStaffTerminal from './pages/DeliveryStaffTerminal';
+
 function AppContent() {
   const { viewMode, user } = useAuth();
   const { toast } = useCart();
@@ -73,38 +78,46 @@ function AppContent() {
 
       {/* Main Content Area */}
       <main style={{ flex: 1 }}>
-        {viewMode === 'storefront' ? (
-          <StorefrontHome 
-            searchTerm={searchTerm}
-            onSelectProduct={(product) => setSelectedProduct(product)}
-            onOpenCart={() => setIsCartOpen(true)}
-          />
-        ) : (
-          /* Admin Portal Interface */
-          !user ? (
-            <div style={{ textAlign: 'center', padding: '100px 20px' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
-                Authentication Required
-              </h2>
-              <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '20px' }}>
-                Please sign in with staff credentials to access the Business Portal.
-              </p>
-              <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
-                Open Staff Login
-              </button>
-            </div>
-          ) : (
-            <>
-              {activeAdminTab === 'dashboard' && <AdminDashboard onNavigateTab={setActiveAdminTab} />}
-              {activeAdminTab === 'pos' && <AdminPos />}
-              {activeAdminTab === 'inventory' && <AdminInventory />}
-              {activeAdminTab === 'orders' && <AdminOrders />}
-              {activeAdminTab === 'purchases' && <AdminPurchases />}
-              {activeAdminTab === 'reports' && <AdminReports />}
-              {activeAdminTab === 'staff' && <AdminStaff />}
-            </>
-          )
-        )}
+        <Routes>
+          <Route path="/track" element={<CustomerTracking />} />
+          <Route path="/track/:trackingNumber" element={<CustomerTracking />} />
+          <Route path="/courier" element={<DeliveryStaffTerminal />} />
+          <Route path="*" element={
+            viewMode === 'storefront' ? (
+              <StorefrontHome 
+                searchTerm={searchTerm}
+                onSelectProduct={(product) => setSelectedProduct(product)}
+                onOpenCart={() => setIsCartOpen(true)}
+              />
+            ) : (
+              /* Admin Portal Interface */
+              !user ? (
+                <div style={{ textAlign: 'center', padding: '100px 20px' }}>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+                    Authentication Required
+                  </h2>
+                  <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '20px' }}>
+                    Please sign in with staff credentials to access the Business Portal.
+                  </p>
+                  <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
+                    Open Staff Login
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {activeAdminTab === 'dashboard' && <AdminDashboard onNavigateTab={setActiveAdminTab} />}
+                  {activeAdminTab === 'pos' && <AdminPos />}
+                  {activeAdminTab === 'inventory' && <AdminInventory />}
+                  {activeAdminTab === 'orders' && <AdminOrders />}
+                  {activeAdminTab === 'deliveries' && <AdminDeliveries />}
+                  {activeAdminTab === 'purchases' && <AdminPurchases />}
+                  {activeAdminTab === 'reports' && <AdminReports />}
+                  {activeAdminTab === 'staff' && <AdminStaff />}
+                </>
+              )
+            )
+          } />
+        </Routes>
       </main>
 
       {/* Global Modals */}
@@ -131,10 +144,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <AppContent />
-      </CartProvider>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }

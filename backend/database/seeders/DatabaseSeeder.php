@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $managerRole = Role::create(['name' => 'manager', 'display_name' => 'Store Manager', 'description' => 'Operations & Stock Supervision']);
         $salesRole = Role::create(['name' => 'sales_staff', 'display_name' => 'Sales Staff', 'description' => 'POS & Order Processing']);
         $inventoryRole = Role::create(['name' => 'inventory_staff', 'display_name' => 'Inventory Staff', 'description' => 'Stock Audit & Receiving']);
+        $deliveryStaffRole = Role::create(['name' => 'delivery_staff', 'display_name' => 'Delivery Staff', 'description' => 'Courier & Dispatch Fulfillment']);
         $customerRole = Role::create(['name' => 'customer', 'display_name' => 'Customer', 'description' => 'Storefront Shopper']);
 
         // 2. Users
@@ -41,6 +42,42 @@ class DatabaseSeeder extends Seeder
             'email' => 'sarah@stockpilot.com',
             'password' => Hash::make('password'),
             'phone' => '+234 802 987 6543',
+        ]);
+
+        User::create([
+            'role_id' => $deliveryStaffRole->id,
+            'name' => 'David Courier',
+            'email' => 'driver@stockpilot.com',
+            'password' => Hash::make('password'),
+            'phone' => '+234 803 555 7788',
+        ]);
+
+        // 2b. Delivery Zones
+        \App\Models\DeliveryZone::create([
+            'name' => 'Central Metro Zone',
+            'city_region' => 'Metropolitan City Center',
+            'standard_fee' => 1500.00,
+            'express_fee' => 3000.00,
+            'estimated_delivery_time' => '1-2 Business Days',
+            'is_active' => true,
+        ]);
+
+        \App\Models\DeliveryZone::create([
+            'name' => 'Suburban Express Zone',
+            'city_region' => 'Greater Suburban Region',
+            'standard_fee' => 2500.00,
+            'express_fee' => 4500.00,
+            'estimated_delivery_time' => '2-3 Business Days',
+            'is_active' => true,
+        ]);
+
+        \App\Models\DeliveryZone::create([
+            'name' => 'Regional Standard Zone',
+            'city_region' => 'Outstation Regional State',
+            'standard_fee' => 4000.00,
+            'express_fee' => 7000.00,
+            'estimated_delivery_time' => '3-5 Business Days',
+            'is_active' => true,
         ]);
 
         // 3. Categories

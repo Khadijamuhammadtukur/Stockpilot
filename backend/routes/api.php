@@ -10,12 +10,16 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReportController;
 
+use App\Http\Controllers\DeliveryController;
+
 // Public Storefront Endpoints
 Route::prefix('storefront')->group(function () {
     Route::get('/products', [ProductController::class, 'storefrontIndex']);
     Route::get('/products/{slug}', [ProductController::class, 'storefrontShow']);
     Route::post('/checkout', [OrderController::class, 'checkout']);
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/delivery-zones', [DeliveryController::class, 'deliveryZones']);
+    Route::get('/tracking/{trackingNumber}', [DeliveryController::class, 'show']);
     
     // Paystack Online Payment Integration
     Route::post('/paystack/initialize', [\App\Http\Controllers\PaystackController::class, 'initialize']);
@@ -46,6 +50,15 @@ Route::get('/products/{id}/performance', [ProductController::class, 'performance
 Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{id}', [OrderController::class, 'show']);
 Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+
+// Delivery & Logistics Management
+Route::get('/deliveries', [DeliveryController::class, 'index']);
+Route::get('/deliveries/my-deliveries', [DeliveryController::class, 'myDeliveries']);
+Route::patch('/deliveries/{id}/status', [DeliveryController::class, 'updateStatus']);
+Route::patch('/deliveries/{id}/assign', [DeliveryController::class, 'assignStaff']);
+Route::get('/delivery-zones', [DeliveryController::class, 'allZones']);
+Route::post('/delivery-zones', [DeliveryController::class, 'storeZone']);
+Route::put('/delivery-zones/{id}', [DeliveryController::class, 'updateZone']);
 
 // Purchase Orders & Suppliers
 Route::get('/purchases', [PurchaseController::class, 'index']);

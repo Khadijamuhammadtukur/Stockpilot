@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 import { 
   ShoppingBag, 
   LayoutDashboard, 
@@ -14,12 +15,14 @@ import {
   Layers,
   Monitor,
   Users,
-  Lock
+  Lock,
+  Truck
 } from 'lucide-react';
 
 export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModal, onOpenDailyCloseModal, activeAdminTab, setActiveAdminTab, searchTerm, setSearchTerm }) {
   const { user, viewMode, toggleViewMode, logout } = useAuth();
   const { itemCount } = useCart();
+  const navigate = useNavigate();
 
   return (
     <header style={{
@@ -103,6 +106,29 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
         {/* Dual Interface Switcher & Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           
+          {/* Public Track Package Button */}
+          {viewMode === 'storefront' && (
+            <button
+              onClick={() => navigate('/track/TRK-DEMO')}
+              title="Track Package Status"
+              style={{
+                background: 'rgba(56, 189, 248, 0.15)',
+                color: '#38bdf8',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                padding: '8px 12px',
+                borderRadius: '99px',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <Truck size={15} /> Track Package
+            </button>
+          )}
+
           {/* Daily Close Action Button for Staff/Admin */}
           {viewMode === 'admin' && user && (
             <button
@@ -302,6 +328,7 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
               { id: 'pos', label: 'In-Store POS Terminal', icon: Monitor },
               { id: 'inventory', label: 'Inventory & Stock History', icon: Box },
               { id: 'orders', label: 'Sales & Orders Pipeline', icon: ShoppingBag },
+              { id: 'deliveries', label: 'Deliveries & Logistics', icon: Truck },
               { id: 'purchases', label: 'Supplier Purchases', icon: Layers },
               { id: 'reports', label: 'Profit Intelligence & Audit Logs', icon: TrendingUp },
               { id: 'staff', label: 'Staff Accounts & Switch User', icon: Users },

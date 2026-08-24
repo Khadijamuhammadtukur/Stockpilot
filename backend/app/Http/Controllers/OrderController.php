@@ -30,6 +30,14 @@ class OrderController extends Controller
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
+            'delivery_method' => 'nullable|string|in:standard,express,pickup',
+            'delivery_zone_id' => 'nullable|exists:delivery_zones,id',
+            'recipient_name' => 'nullable|string',
+            'recipient_phone' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'landmark' => 'nullable|string',
+            'delivery_notes' => 'nullable|string',
         ]);
 
         return DB::transaction(function () use ($validated, $request) {
@@ -68,7 +76,20 @@ class OrderController extends Controller
                 ];
             }
 
+            // Calculate Delivery Fee
+            $deliveryFee = 0.00;
+            $deliveryMethod = $validated['delivery_method'] ?? 'standard';
+            $zoneId = $validated['delivery_zone_id'] ?? null;
+
+            if ($zoneId && $deliveryMethod !== 'pickup') {
+                $zone = \App\Models\DeliveryZone::find($zoneId);
+                if ($zone) {
+                    $deliveryFee = ($deliveryMethod === 'express') ? $zone->express_fee : $zone->standard_fee;
+                }
+            }
+
             $orderNumber = 'ORD-' . strtoupper(Str::random(8));
+            $totalAmount = $subtotal + $deliveryFee;
             $grossProfit = $subtotal - $totalCost;
 
             // Find or create customer record
@@ -82,7 +103,7 @@ class OrderController extends Controller
             );
 
             $customer->increment('order_count');
-            $customer->increment('total_spend', $subtotal);
+            $customer->increment('total_spend', $totalAmount);
 
             // Step 2: Create Order
             $isPaid = in_array($validated['payment_method'], ['cash', 'card_pos', 'bank_transfer', 'online_paystack']);
@@ -96,7 +117,7 @@ class OrderController extends Controller
                 'shipping_address' => $validated['shipping_address'] ?? null,
                 'subtotal' => $subtotal,
                 'discount_amount' => 0,
-                'total_amount' => $subtotal,
+                'total_amount' => $totalAmount,
                 'total_cost' => $totalCost,
                 'gross_profit' => $grossProfit,
                 'payment_status' => $isPaid ? 'paid' : 'pending',
@@ -104,6 +125,41 @@ class OrderController extends Controller
                 'payment_method' => $validated['payment_method'],
                 'transaction_reference' => 'PAY-' . strtoupper(Str::random(10)),
                 'user_id' => $request->user()?->id,
+            ]);
+
+            // Create Delivery Record & Tracking Number
+            $trackingNumber = 'TRK-' . strtoupper(Str::random(8));
+            $delivery = \App\Models\Delivery::create([
+                'order_id' => $order->id,
+                'delivery_method' => $deliveryMethod,
+                'delivery_zone_id' => $zoneId,
+                'delivery_fee' => $deliveryFee,
+                'tracking_number' => $trackingNumber,
+                'delivery_status' => 'processing',
+                'notes' => $validated['delivery_notes'] ?? null,
+            ]);
+
+            // Create Delivery Address
+            \App\Models\DeliveryAddress::create([
+                'order_id' => $order->id,
+                'delivery_id' => $delivery->id,
+                'recipient_name' => $validated['recipient_name'] ?? $validated['customer_name'],
+                'phone' => $validated['recipient_phone'] ?? $validated['customer_phone'] ?? 'N/A',
+                'email' => $validated['customer_email'],
+                'address' => $validated['shipping_address'] ?? 'In-Store Pickup',
+                'city' => $validated['city'] ?? null,
+                'state' => $validated['state'] ?? null,
+                'landmark' => $validated['landmark'] ?? null,
+                'delivery_notes' => $validated['delivery_notes'] ?? null,
+            ]);
+
+            // Initial Delivery Status History Log
+            \App\Models\DeliveryStatusHistory::create([
+                'delivery_id' => $delivery->id,
+                'status' => 'processing',
+                'note' => 'Order placed successfully. Package prepared for dispatch.',
+                'changed_by_name' => $validated['customer_name'],
+                'exact_timestamp' => now(),
             ]);
 
             // Step 3: Process Items & Deduct Inventory Automatically
@@ -147,7 +203,7 @@ class OrderController extends Controller
                     'order_id' => $order->id,
                     'reference' => $order->transaction_reference,
                     'gateway' => $validated['payment_method'],
-                    'amount' => $subtotal,
+                    'amount' => $totalAmount,
                     'status' => 'successful',
                     'gateway_response' => ['status' => 'success', 'message' => 'Approved'],
                 ]);
@@ -159,7 +215,7 @@ class OrderController extends Controller
                 'user_role' => 'customer',
                 'action' => 'ORDER_CREATED',
                 'category' => 'sales',
-                'description' => "Order {$orderNumber} placed for " . count($itemsToProcess) . " items worth ₦" . number_format($subtotal, 2),
+                'description' => "Order {$orderNumber} placed for " . count($itemsToProcess) . " items worth ₦" . number_format($totalAmount, 2) . " (Tracking: {$trackingNumber})",
                 'entity_type' => Order::class,
                 'entity_id' => $order->id,
                 'exact_timestamp' => now(),
@@ -167,7 +223,8 @@ class OrderController extends Controller
 
             return response()->json([
                 'message' => 'Order created successfully!',
-                'order' => $order->load('items.product'),
+                'order' => $order->load(['items.product', 'delivery.zone', 'deliveryAddress']),
+                'tracking_number' => $trackingNumber,
             ], 201);
         });
     }

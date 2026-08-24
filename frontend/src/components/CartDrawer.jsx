@@ -12,7 +12,34 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
   const [shippingAddress, setShippingAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('online_paystack');
   const [processing, setProcessing] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [zones, setZones] = useState([]);
+  const [deliveryMethod, setDeliveryMethod] = useState('standard');
+  const [selectedZoneId, setSelectedZoneId] = useState('');
+  const [recipientName, setRecipientName] = useState('');
+  const [recipientPhone, setRecipientPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [landmark, setLandmark] = useState('');
+  const [deliveryNotes, setDeliveryNotes] = useState('');
+
+  React.useEffect(() => {
+    if (isOpen) {
+      apiFetch('/storefront/delivery-zones')
+        .then(data => {
+          setZones(data || []);
+          if (data && data.length > 0) {
+            setSelectedZoneId(data[0].id.toString());
+          }
+        })
+        .catch(console.error);
+    }
+  }, [isOpen]);
+
+  const selectedZone = zones.find(z => z.id.toString() === selectedZoneId?.toString());
+  const deliveryFee = (deliveryMethod === 'pickup' || !selectedZone) 
+    ? 0 
+    : (deliveryMethod === 'express' ? (selectedZone.express_fee || selectedZone.standard_fee) : selectedZone.standard_fee);
+  const totalAmount = subtotal + deliveryFee;
 
   if (!isOpen) return null;
 
@@ -29,6 +56,14 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
       customer_phone: customerPhone,
       shipping_address: shippingAddress,
       payment_method: paymentMethod,
+      delivery_method: deliveryMethod,
+      delivery_zone_id: selectedZoneId ? parseInt(selectedZoneId) : null,
+      recipient_name: recipientName || customerName,
+      recipient_phone: recipientPhone || customerPhone,
+      city: city,
+      state: state,
+      landmark: landmark,
+      delivery_notes: deliveryNotes,
       items: cart.map(item => ({
         product_id: item.product.id,
         quantity: item.quantity,
@@ -203,16 +238,43 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
                 />
               </div>
 
+              <h4 style={{ fontSize: '1rem', fontWeight: 700, margin: '18px 0 10px 0', color: '#0f172a' }}>Delivery Method & Location</h4>
+              
               <div className="input-group">
-                <label>Delivery Shipping Address</label>
-                <textarea 
-                  className="input-control" 
-                  rows="2"
-                  placeholder="Street, City, State..."
-                  value={shippingAddress}
-                  onChange={e => setShippingAddress(e.target.value)}
-                />
+                <label>Fulfillment Option</label>
+                <select className="input-control" value={deliveryMethod} onChange={e => setDeliveryMethod(e.target.value)}>
+                  <option value="standard">Standard Delivery</option>
+                  <option value="express">Express Priority Delivery</option>
+                  <option value="pickup">In-Store Self Pickup (No Delivery Fee)</option>
+                </select>
               </div>
+
+              {deliveryMethod !== 'pickup' && (
+                <>
+                  <div className="input-group">
+                    <label>Delivery Destination Zone</label>
+                    <select className="input-control" value={selectedZoneId} onChange={e => setSelectedZoneId(e.target.value)}>
+                      {zones.map(z => (
+                        <option key={z.id} value={z.id}>
+                          {z.name} ({z.city_region}) - ₦{Number(deliveryMethod === 'express' ? z.express_fee : z.standard_fee).toLocaleString()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="input-group">
+                    <label>Recipient Full Address</label>
+                    <textarea 
+                      className="input-control" 
+                      rows="2"
+                      required
+                      placeholder="Street name, house number, apartment..."
+                      value={shippingAddress}
+                      onChange={e => setShippingAddress(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
 
               <h4 style={{ fontSize: '1rem', fontWeight: 700, margin: '18px 0 10px 0', color: '#0f172a' }}>Payment Gateway Method</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -274,7 +336,7 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
                 gap: '8px'
               }}>
                 <ShieldCheck size={18} color="#10b981" />
-                Live stock verification will occur before payment authorization.
+                Single inventory deduction occurs once upon payment confirmation.
               </div>
             </form>
           )}
@@ -283,11 +345,21 @@ export default function CartDrawer({ isOpen, onClose, onOrderSuccess }) {
         {/* Footer Subtotal & Action */}
         {cart.length > 0 && (
           <div style={{ padding: '20px', borderTop: '1px solid #e2e8f0', background: '#f8fafc' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '14px' }}>
-              <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Subtotal</span>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a' }}>
-                ₦{subtotal.toLocaleString()}
-              </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#64748b' }}>
+                <span>Item Subtotal</span>
+                <span>₦{subtotal.toLocaleString()}</span>
+              </div>
+              {step === 'checkout' && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#2563eb', fontWeight: 600 }}>
+                  <span>Delivery Fee</span>
+                  <span>₦{deliveryFee.toLocaleString()}</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', borderTop: '1px solid #e2e8f0', paddingTop: '6px', marginTop: '4px' }}>
+                <span>Total Payment</span>
+                <span>₦{(step === 'checkout' ? totalAmount : subtotal).toLocaleString()}</span>
+              </div>
             </div>
 
             {step === 'cart' ? (
