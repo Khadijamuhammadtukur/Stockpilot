@@ -202,8 +202,8 @@ export default function AdminStaff() {
                 <select className="input-control" value={roleId} onChange={e => setRoleId(e.target.value)}>
                   <option value="1">Administrator (Full Access)</option>
                   <option value="2">Sales Staff (POS & Orders)</option>
-                  <option value="3">Inventory Staff (Stock & Restocks)</option>
-                  <option value="4">Manager</option>
+                  <option value="3">Inventory Staff (Stock & Supplier Purchasing)</option>
+                  <option value="4">Delivery Staff (Courier & Dispatch Fulfillment)</option>
                 </select>
               </div>
 

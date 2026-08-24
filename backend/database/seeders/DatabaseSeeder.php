@@ -20,9 +20,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $adminRole = Role::create(['name' => 'admin', 'display_name' => 'Administrator', 'description' => 'Full System Access']);
-        $managerRole = Role::create(['name' => 'manager', 'display_name' => 'Store Manager', 'description' => 'Operations & Stock Supervision']);
         $salesRole = Role::create(['name' => 'sales_staff', 'display_name' => 'Sales Staff', 'description' => 'POS & Order Processing']);
-        $inventoryRole = Role::create(['name' => 'inventory_staff', 'display_name' => 'Inventory Staff', 'description' => 'Stock Audit & Receiving']);
+        $inventoryRole = Role::create(['name' => 'inventory_staff', 'display_name' => 'Inventory Staff', 'description' => 'Stock Audit & Purchasing']);
         $deliveryStaffRole = Role::create(['name' => 'delivery_staff', 'display_name' => 'Delivery Staff', 'description' => 'Courier & Dispatch Fulfillment']);
         $customerRole = Role::create(['name' => 'customer', 'display_name' => 'Customer', 'description' => 'Storefront Shopper']);
 
@@ -40,6 +39,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'sarah@stockpilot.com',
             'password' => Hash::make('password'),
             'phone' => '+234 802 987 6543',
+        ]);
+
+        User::create([
+            'role_id' => $inventoryRole->id,
+            'name' => 'Ian Inventory',
+            'email' => 'stock@stockpilot.com',
+            'password' => Hash::make('password'),
+            'phone' => '+234 804 111 2233',
         ]);
 
         User::create([
