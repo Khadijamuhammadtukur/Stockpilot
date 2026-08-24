@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { useNavigate } from 'react-router-dom';
 import { 
   ShoppingBag, 
   LayoutDashboard, 
@@ -22,7 +21,6 @@ import {
 export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModal, onOpenDailyCloseModal, onOpenTracking, activeAdminTab, setActiveAdminTab, searchTerm, setSearchTerm }) {
   const { user, viewMode, toggleViewMode, logout } = useAuth();
   const { itemCount } = useCart();
-  const navigate = useNavigate();
 
   return (
     <header style={{

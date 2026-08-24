@@ -18,8 +18,6 @@ import AdminPurchases from './pages/AdminPurchases';
 import AdminReports from './pages/AdminReports';
 import AdminPos from './pages/AdminPos';
 import AdminStaff from './pages/AdminStaff';
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminDeliveries from './pages/AdminDeliveries';
 import CustomerTracking from './pages/CustomerTracking';
 import DeliveryStaffTerminal from './pages/DeliveryStaffTerminal';
@@ -42,7 +40,7 @@ function AppContent() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
       
-            {toast && (
+      {toast && (
         <div style={{
           position: 'fixed',
           bottom: '24px',
@@ -63,7 +61,7 @@ function AppContent() {
         </div>
       )}
 
-            <Navbar 
+      <Navbar 
         onOpenCart={() => setIsCartOpen(true)}
         onOpenAuthModal={() => setIsAuthOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
@@ -75,7 +73,7 @@ function AppContent() {
         setSearchTerm={setSearchTerm}
       />
 
-            <main style={{ flex: 1 }}>
+      <main style={{ flex: 1 }}>
         {showTracking ? (
           <div>
             <div style={{ maxWidth: '960px', margin: '20px auto 0 auto', padding: '0 20px' }}>
@@ -85,50 +83,41 @@ function AppContent() {
             </div>
             <CustomerTracking />
           </div>
+        ) : viewMode === 'storefront' ? (
+          <StorefrontHome 
+            searchTerm={searchTerm}
+            onSelectProduct={(product) => setSelectedProduct(product)}
+            onOpenCart={() => setIsCartOpen(true)}
+          />
         ) : (
-          <Routes>
-            <Route path="/track" element={<CustomerTracking />} />
-            <Route path="/track/:trackingNumber" element={<CustomerTracking />} />
-            <Route path="/courier" element={<DeliveryStaffTerminal />} />
-            <Route path="*" element={
-              viewMode === 'storefront' ? (
-                <StorefrontHome 
-                  searchTerm={searchTerm}
-                  onSelectProduct={(product) => setSelectedProduct(product)}
-                  onOpenCart={() => setIsCartOpen(true)}
-                />
-              ) : (
-                !user ? (
-                  <div style={{ textAlign: 'center', padding: '100px 20px' }}>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
-                      Authentication Required
-                    </h2>
-                    <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '20px' }}>
-                      Please sign in with staff credentials to access the Business Portal.
-                    </p>
-                    <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
-                      Open Staff Login
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    {activeAdminTab === 'dashboard' && <AdminDashboard onNavigateTab={setActiveAdminTab} />}
-                    {activeAdminTab === 'pos' && <AdminPos />}
-                    {activeAdminTab === 'inventory' && <AdminInventory />}
-                    {activeAdminTab === 'orders' && <AdminOrders />}
-                    {activeAdminTab === 'deliveries' && <AdminDeliveries />}
-                    {activeAdminTab === 'purchases' && <AdminPurchases />}
-                    {activeAdminTab === 'reports' && <AdminReports />}
-                    {activeAdminTab === 'staff' && <AdminStaff />}
-                  </>
-                )
-              )
-            } />
-          </Routes>
+          !user ? (
+            <div style={{ textAlign: 'center', padding: '100px 20px' }}>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+                Authentication Required
+              </h2>
+              <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '20px' }}>
+                Please sign in with staff credentials to access the Business Portal.
+              </p>
+              <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
+                Open Staff Login
+              </button>
+            </div>
+          ) : (
+            <>
+              {activeAdminTab === 'dashboard' && <AdminDashboard onNavigateTab={setActiveAdminTab} />}
+              {activeAdminTab === 'pos' && <AdminPos />}
+              {activeAdminTab === 'inventory' && <AdminInventory />}
+              {activeAdminTab === 'orders' && <AdminOrders />}
+              {activeAdminTab === 'deliveries' && <AdminDeliveries />}
+              {activeAdminTab === 'purchases' && <AdminPurchases />}
+              {activeAdminTab === 'reports' && <AdminReports />}
+              {activeAdminTab === 'staff' && <AdminStaff />}
+            </>
+          )
         )}
       </main>
 
-            <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
       <DailyCloseModal isOpen={isDailyCloseOpen} onClose={() => setIsDailyCloseOpen(false)} />
       <CartDrawer 
@@ -151,12 +140,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <CartProvider>
-          <AppContent />
-        </CartProvider>
-      </AuthProvider>
-    </BrowserRouter>
+    <AuthProvider>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
+    </AuthProvider>
   );
 }

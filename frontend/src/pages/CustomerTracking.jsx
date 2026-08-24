@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { apiFetch } from '../api/config';
 import { 
   Package, Truck, CheckCircle2, Clock, MapPin, Search, 
