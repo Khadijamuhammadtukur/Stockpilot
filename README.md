@@ -6,16 +6,18 @@
 
 ## 🌟 Key Features & Core Modules
 
-### 1. 🛍️ Customer Online Storefront & Package Tracking
+### 1. 🛍️ Customer Online Storefront & Status Timeline Tracking
 - **Intelligent Stock Visibility**: Products with active stock ($> 0$) appear on the public storefront. Items that reach zero stock ($0$) are automatically hidden to prevent overselling.
 - **Delivery Zone Selection & Fee Calculation**: Customers select fulfillment options (Standard, Express, Pickup) and Delivery Zones during checkout. Delivery fees are auto-calculated into the total order price.
 - **Unique Package Tracking (`TRK-XXXXXXXX`)**: Generates unique tracking numbers and recipient address records for every completed order.
+- **1-Click Receipt Status Tracking**: Includes a **`🚚 View Package Status`** button on the receipt popup that opens the timestamped status timeline view.
 - **Timestamped Customer Tracking Page (`/track/:trackingNumber`)**: Public tracking page displaying timestamped fulfillment steps (*Order Confirmed* $\rightarrow$ *Processing* $\rightarrow$ *Ready for Dispatch* $\rightarrow$ *Dispatched* $\rightarrow$ *In Transit* $\rightarrow$ *Out for Delivery* $\rightarrow$ *Delivered*).
 
 ### 2. 🚚 Delivery & Logistics Management
-- **Admin Delivery Portal**: Filter orders by status (*Pending*, *Processing*, *Dispatched*, *In Transit*, *Delivered*), assign courier staff, set estimated delivery dates, and update fulfillment notes.
+- **Admin Delivery Portal**: Filter orders by status (*Pending*, *Processing*, *Ready for Dispatch*, *In Transit*, *Delivered*), assign courier staff, set estimated delivery dates, and update fulfillment notes.
+- **1-Click Direct Table Action Buttons**: Single-click status advancement buttons right in the Admin Deliveries table row (*Start Transit*, *Out for Delivery*, *Mark Delivered*).
 - **Configurable Delivery Zones & Fees**: Add and configure delivery zones (zone name, region, standard fee, express fee, estimated delivery time).
-- **Courier Mobile Terminal (`/courier`)**: Mobile-friendly interface for delivery staff (`driver@stockpilot.com`) to view assigned packages and update delivery status (*Out for Delivery*, *Mark Delivered*).
+- **Courier Mobile Terminal (`/courier`)**: Streamlined mobile interface for delivery drivers (`driver@stockpilot.com`) to view assigned packages and update delivery statuses.
 - **Single Inventory Deduction**: Inventory is deducted ONCE upon order creation/payment confirmation. Delivery status updates do NOT perform duplicate stock deductions.
 
 ### 3. 🛒 In-Store Walk-In POS Terminal
@@ -31,23 +33,24 @@
 - Timeframe filter pills: **Today's Report**, **Weekly Report**, **Monthly Report**, **Yearly Report**, and **All Time**.
 - One-click **Export CSV** and **Print PDF** reports.
 
-### 6. 👥 Staff Accounts & Session Switcher
-- Manage staff credentials and role assignments (`admin`, `sales_staff`, `inventory_staff`, `delivery_staff`, `manager`).
-- Admins can click **"Switch to User"** to instantly assume any staff account session context for testing or supervision.
+### 6. 👥 Role-Based Staff Workspaces & Session Switcher
+- Manage staff credentials and role assignments (`admin`, `sales_staff`, `inventory_staff`, `delivery_staff`).
+- **Streamlined Role Navigation**: Each staff role enters their dedicated workspace upon login (Sales Staff defaults to POS, Delivery Staff defaults to Logistics).
+- Admins can click **"Switch Session"** to instantly assume any staff account session context for testing or supervision.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: React 19, Vite, Tailwind CSS / Custom Glassmorphism, React Router DOM v7, Lucide Icons.
+- **Frontend**: React 19, Vite, Vanilla CSS / Custom Glassmorphism, React Router DOM v7, Lucide Icons.
 - **Backend**: Laravel REST API, Eloquent ORM, Database Migrations & Seeders.
 - **Database**: SQLite (default: `backend/database/database.sqlite`) / MySQL compatible.
 
 ---
 
-## ⚡ Quick Start Setup
+## ⚡ Quick Start & Deployment Setup
 
-### 1. Backend Setup (Laravel)
+### 1. Local Backend Setup (Laravel API)
 ```bash
 cd backend
 composer install
@@ -55,7 +58,7 @@ php artisan migrate:fresh --seed
 php artisan serve --port=8005
 ```
 
-### 2. Frontend Setup (React + Vite)
+### 2. Local Frontend Setup (React + Vite)
 ```bash
 cd frontend
 npm install
@@ -64,17 +67,22 @@ npm run dev
 
 Open **`http://localhost:5173`** in your browser.
 
+### 🚀 3. Live Deployment (Render / Vercel / Shared Hosting)
+- **Frontend**: Deploy `frontend/` directory to Vercel or Render Static Site (Build command: `npm run build`, Output directory: `dist`).
+- **Backend**: Deploy `backend/` directory to Render Web Service or Railway (Start command: `php artisan serve --host=0.0.0.0 --port=$PORT`).
+
 ---
 
-## 🔑 Default Test Accounts
+## 🔑 Default Test Credentials
 
-All seeded default accounts use the unified password: **`password`**
+All default staff accounts use the password: **`password`**
 
 | Role | Email | Password | Primary Interface |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@stockpilot.com` | `password` | Business Portal & Command Center |
-| **Sales Staff** | `sarah@stockpilot.com` | `password` | In-Store POS & Sales |
-| **Delivery Courier** | `driver@stockpilot.com` | `password` | Courier Terminal (`/courier`) |
+| 👑 **Administrator** | `admin@stockpilot.com` | `password` | Executive Business Portal & Command Center |
+| 🛒 **Sales Staff** | `sarah@stockpilot.com` | `password` | In-Store POS Sales Register |
+| 📦 **Inventory Staff** | `stock@stockpilot.com` | `password` | Stock Restocks & Supplier Purchases |
+| 🚚 **Delivery Staff** | `driver@stockpilot.com` | `password` | Courier Terminal & Dispatch |
 
 ---
 
