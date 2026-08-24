@@ -61,6 +61,22 @@ export default function AdminDeliveries() {
     fetchData();
   }, [search, statusFilter, zoneFilter]);
 
+  const handleDirectStatusChange = async (deliveryId, targetStatus) => {
+    try {
+      await apiFetch(`/deliveries/${deliveryId}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          status: targetStatus,
+          note: `Status updated to '${targetStatus.replace(/_/g, ' ')}' via 1-Click Action.`,
+        }),
+      });
+      showToast(`Package status updated to '${targetStatus.replace(/_/g, ' ')}'!`);
+      fetchData();
+    } catch (err) {
+      showToast('Error updating status: ' + err.message, 'error');
+    }
+  };
+
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
     if (!selectedDelivery) return;
@@ -262,7 +278,36 @@ export default function AdminDeliveries() {
                     </td>
 
                     <td style={{ padding: '14px 16px', textAlign: 'right' }}>
-                      <div style={{ display: 'inline-flex', gap: '6px' }}>
+                      <div style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                        {d.delivery_status !== 'delivered' && (
+                          <>
+                            {d.delivery_status === 'ready_for_dispatch' && (
+                              <button 
+                                className="btn btn-secondary" 
+                                style={{ padding: '5px 10px', fontSize: '0.78rem', background: '#e0f2fe', color: '#0369a1', borderColor: '#bae6fd' }}
+                                onClick={() => handleDirectStatusChange(d.id, 'in_transit')}
+                              >
+                                <Truck size={13} /> Start Transit
+                              </button>
+                            )}
+                            {d.delivery_status === 'in_transit' && (
+                              <button 
+                                className="btn btn-secondary" 
+                                style={{ padding: '5px 10px', fontSize: '0.78rem', background: '#fef3c7', color: '#92400e', borderColor: '#fde68a' }}
+                                onClick={() => handleDirectStatusChange(d.id, 'out_for_delivery')}
+                              >
+                                Out for Delivery
+                              </button>
+                            )}
+                            <button 
+                              className="btn btn-primary" 
+                              style={{ padding: '5px 10px', fontSize: '0.78rem', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
+                              onClick={() => handleDirectStatusChange(d.id, 'delivered')}
+                            >
+                              <CheckCircle2 size={13} /> Mark Delivered
+                            </button>
+                          </>
+                        )}
                         <button 
                           className="btn btn-secondary" 
                           style={{ padding: '5px 10px', fontSize: '0.78rem' }}
