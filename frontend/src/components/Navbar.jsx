@@ -19,7 +19,7 @@ import {
   Truck
 } from 'lucide-react';
 
-export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModal, onOpenDailyCloseModal, activeAdminTab, setActiveAdminTab, searchTerm, setSearchTerm }) {
+export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModal, onOpenDailyCloseModal, onOpenTracking, activeAdminTab, setActiveAdminTab, searchTerm, setSearchTerm }) {
   const { user, viewMode, toggleViewMode, logout } = useAuth();
   const { itemCount } = useCart();
   const navigate = useNavigate();
@@ -109,7 +109,10 @@ export default function Navbar({ onOpenCart, onOpenAuthModal, onOpenSettingsModa
           {/* Public Track Package Button */}
           {viewMode === 'storefront' && (
             <button
-              onClick={() => navigate('/track/TRK-DEMO')}
+              onClick={() => {
+                if (onOpenTracking) onOpenTracking();
+                else navigate('/track');
+              }}
               title="Track Package Status"
               style={{
                 background: 'rgba(56, 189, 248, 0.15)',

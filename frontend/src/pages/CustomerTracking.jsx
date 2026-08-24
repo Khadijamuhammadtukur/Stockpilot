@@ -6,11 +6,8 @@ import {
   AlertCircle, ShieldCheck, User, Calendar, ChevronRight 
 } from 'lucide-react';
 
-export default function CustomerTracking() {
-  const { trackingNumber: urlTracking } = useParams();
-  const navigate = useNavigate();
-
-  const [inputTracking, setInputTracking] = useState(urlTracking || '');
+export default function CustomerTracking({ trackingNumber: propTracking }) {
+  const [inputTracking, setInputTracking] = useState(propTracking || '');
   const [trackingData, setTrackingData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,16 +28,15 @@ export default function CustomerTracking() {
   };
 
   useEffect(() => {
-    if (urlTracking) {
-      setInputTracking(urlTracking);
-      fetchTrackingInfo(urlTracking);
+    if (propTracking) {
+      setInputTracking(propTracking);
+      fetchTrackingInfo(propTracking);
     }
-  }, [urlTracking]);
+  }, [propTracking]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (!inputTracking.trim()) return;
-    navigate(`/track/${encodeURIComponent(inputTracking.trim())}`);
     fetchTrackingInfo(inputTracking.trim());
   };
 

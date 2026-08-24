@@ -30,6 +30,7 @@ function AppContent() {
 
   const [activeAdminTab, setActiveAdminTab] = useState('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showTracking, setShowTracking] = useState(false);
   
   // Modals state
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -70,54 +71,66 @@ function AppContent() {
         onOpenAuthModal={() => setIsAuthOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
         onOpenDailyCloseModal={() => setIsDailyCloseOpen(true)}
+        onOpenTracking={() => setShowTracking(true)}
         activeAdminTab={activeAdminTab}
-        setActiveAdminTab={setActiveAdminTab}
+        setActiveAdminTab={(tab) => { setShowTracking(false); setActiveAdminTab(tab); }}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
 
       {/* Main Content Area */}
       <main style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/track" element={<CustomerTracking />} />
-          <Route path="/track/:trackingNumber" element={<CustomerTracking />} />
-          <Route path="/courier" element={<DeliveryStaffTerminal />} />
-          <Route path="*" element={
-            viewMode === 'storefront' ? (
-              <StorefrontHome 
-                searchTerm={searchTerm}
-                onSelectProduct={(product) => setSelectedProduct(product)}
-                onOpenCart={() => setIsCartOpen(true)}
-              />
-            ) : (
-              /* Admin Portal Interface */
-              !user ? (
-                <div style={{ textAlign: 'center', padding: '100px 20px' }}>
-                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
-                    Authentication Required
-                  </h2>
-                  <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '20px' }}>
-                    Please sign in with staff credentials to access the Business Portal.
-                  </p>
-                  <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
-                    Open Staff Login
-                  </button>
-                </div>
+        {showTracking ? (
+          <div>
+            <div style={{ maxWidth: '960px', margin: '20px auto 0 auto', padding: '0 20px' }}>
+              <button className="btn btn-secondary" onClick={() => setShowTracking(false)}>
+                ← Back to Storefront Catalog
+              </button>
+            </div>
+            <CustomerTracking />
+          </div>
+        ) : (
+          <Routes>
+            <Route path="/track" element={<CustomerTracking />} />
+            <Route path="/track/:trackingNumber" element={<CustomerTracking />} />
+            <Route path="/courier" element={<DeliveryStaffTerminal />} />
+            <Route path="*" element={
+              viewMode === 'storefront' ? (
+                <StorefrontHome 
+                  searchTerm={searchTerm}
+                  onSelectProduct={(product) => setSelectedProduct(product)}
+                  onOpenCart={() => setIsCartOpen(true)}
+                />
               ) : (
-                <>
-                  {activeAdminTab === 'dashboard' && <AdminDashboard onNavigateTab={setActiveAdminTab} />}
-                  {activeAdminTab === 'pos' && <AdminPos />}
-                  {activeAdminTab === 'inventory' && <AdminInventory />}
-                  {activeAdminTab === 'orders' && <AdminOrders />}
-                  {activeAdminTab === 'deliveries' && <AdminDeliveries />}
-                  {activeAdminTab === 'purchases' && <AdminPurchases />}
-                  {activeAdminTab === 'reports' && <AdminReports />}
-                  {activeAdminTab === 'staff' && <AdminStaff />}
-                </>
+                /* Admin Portal Interface */
+                !user ? (
+                  <div style={{ textAlign: 'center', padding: '100px 20px' }}>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+                      Authentication Required
+                    </h2>
+                    <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '20px' }}>
+                      Please sign in with staff credentials to access the Business Portal.
+                    </p>
+                    <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
+                      Open Staff Login
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {activeAdminTab === 'dashboard' && <AdminDashboard onNavigateTab={setActiveAdminTab} />}
+                    {activeAdminTab === 'pos' && <AdminPos />}
+                    {activeAdminTab === 'inventory' && <AdminInventory />}
+                    {activeAdminTab === 'orders' && <AdminOrders />}
+                    {activeAdminTab === 'deliveries' && <AdminDeliveries />}
+                    {activeAdminTab === 'purchases' && <AdminPurchases />}
+                    {activeAdminTab === 'reports' && <AdminReports />}
+                    {activeAdminTab === 'staff' && <AdminStaff />}
+                  </>
+                )
               )
-            )
-          } />
-        </Routes>
+            } />
+          </Routes>
+        )}
       </main>
 
       {/* Global Modals */}
